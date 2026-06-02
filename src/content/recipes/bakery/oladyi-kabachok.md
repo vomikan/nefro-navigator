@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 25
 tags: [low-protein, vegetarian, quick, breakfast]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-03
+date_added: "2024-12-03"
 notes: "Кабачок даёт сочность без избытка белка. Крахмал вместо муки для снижения белка."
 ---
 

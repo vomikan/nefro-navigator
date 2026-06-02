@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 30
 tags: [low-protein, freezer-friendly, traditional, balanced]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-02
+date_added: "2024-12-02"
 notes: "Капуста бланшируется. Фарш: отварная курица + промытый рис + овощи. Соус без томатной пасты с фосфатами."
 ---
 

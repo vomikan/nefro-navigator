@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 9
 tags: [low-protein, staple, bread-maker, oil-based]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-06
+date_added: "2024-12-06"
 notes: "Вариант на растительном масле — более лёгкий, без молочных продуктов. Белок снижен за счёт крахмала."
 ---
 

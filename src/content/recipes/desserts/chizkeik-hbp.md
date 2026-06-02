@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 35
 tags: [low-protein, dessert, celebration, no-bake]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-14
+date_added: "2024-12-14"
 notes: "Основа из МБ-печенья, крем на твороге 5% с фруктовым пюре. Без избытка фосфора и калия."
 ---
 

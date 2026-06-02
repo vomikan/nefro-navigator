@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 15
 tags: [low-protein, breakfast, quick, starch-base]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-04
+date_added: "2024-12-04"
 notes: "Яйца заменены на крахмал + воду. Молоко можно разбавить. Идеальны для завтрака с домашним вареньем."
 ---
 

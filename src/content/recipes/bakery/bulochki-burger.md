@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 8
 tags: [low-protein, bread, burger, baking]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-05
+date_added: "2024-12-05"
 notes: "Без соли и фосфатных добавок. Крахмал снижает белок. Идеальны для шаурмы и бургеров ХБП."
 ---
 

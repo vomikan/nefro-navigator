@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 12
 tags: [low-protein, dessert, traditional, fried]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-08
+date_added: "2024-12-08"
 notes: "Традиционный десерт с минимальным белком. Тесто на крахмале, сироп без мёда (по желанию)."
 ---
 

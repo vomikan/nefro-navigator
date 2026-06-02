@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 10
 tags: [low-protein, low-phosphorus, bread-maker, staple]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-02
+date_added: "2024-12-02"
 notes: "Белок снижен за счёт 30% кукурузного крахмала. Лук добавляет аромат без соли. Замораживайте порционно."
 ---
 

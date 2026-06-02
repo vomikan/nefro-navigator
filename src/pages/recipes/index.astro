@@ -1,0 +1,232 @@
+---
+// src/pages/recipes/index.astro
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+const recipesDir = path.join(process.cwd(), 'src/content/recipes');
+const allRecipes: any[] = [];
+
+function walkDir(dir: string, baseDir = '') {
+  const files = fs.readdirSync(dir);
+  
+  files.forEach(file => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+    
+    if (stat.isDirectory()) {
+      walkDir(filePath, baseDir ? `${baseDir}/${file}` : file);
+    } else if (file.endsWith('.md')) {
+      const content = fs.readFileSync(filePath, 'utf-8');
+      const { data: frontmatter } = matter(content);
+      const slug = baseDir ? `${baseDir}/${file.replace('.md', '')}` : file.replace('.md', '');
+      
+      allRecipes.push({
+        slug,
+        ...frontmatter,
+      });
+    }
+  });
+}
+
+walkDir(recipesDir);
+
+const categoryMap: Record<string, string> = {
+  'soups': '🥣 Первое',
+  'mains': '🍽️ Второе',
+  'sides': '🥔 Гарниры',
+  'salads': '🥗 Салаты',
+  'desserts': '🍰 Десерты',
+  'bakery': '🍞 Выпечка',
+  'sauces': '🧴 Соусы',
+  'prep': '⚙️ Заготовки',
+};
+
+const categoryOrder = [
+  '🥣 Первое', '🍽️ Второе', '🥔 Гарниры', '🥗 Салаты',
+  '🍰 Десерты', '🍞 Выпечка', '🧴 Соусы', '⚙️ Заготовки',
+];
+
+// Группировка
+const grouped = allRecipes.reduce((acc: Record<string, any[]>, recipe) => {
+  const folder = recipe.slug.includes('/') ? recipe.slug.split('/')[0] : 'other';
+  const cat = categoryMap[folder] || folder;
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(recipe);
+  return acc;
+}, {});
+
+// Сортировка по порядку
+const categories = Object.keys(grouped).sort((a, b) => {
+  const idxA = categoryOrder.indexOf(a);
+  const idxB = categoryOrder.indexOf(b);
+  return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
+});
+---
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Рецепты | Petrov-Diet</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 1200px; margin: 0 auto; padding: 1rem; color: #333; }
+    a { color: #2c5530; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { display: inline-block; margin-bottom: 1rem; }
+    
+    .category-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+    
+    .category-btn {
+      padding: 0.8rem 1.2rem;
+      border: 2px solid #e8f5e9;
+      background: #fff;
+      color: #2c5530;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .category-btn:hover {
+      background: #e8f5e9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+    }
+    
+    .category-btn.active {
+      background: #4caf50;
+      color: white;
+      border-color: #4caf50;
+    }
+    
+    .recipes-grid {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .category-section {
+      margin: 2rem 0;
+    }
+    
+    .category-section h2 { 
+      margin-top: 0;
+      border-bottom: 2px solid #e8f5e9; 
+      padding-bottom: 0.5rem; 
+    }
+    
+    .recipe-card { 
+      background: #f9f9f9; 
+      padding: 1rem; 
+      margin: 0.5rem 0; 
+      border-radius: 6px; 
+      border-left: 4px solid #4caf50;
+      transition: all 0.3s ease;
+    }
+    
+    .recipe-card:hover {
+      background: #f0f7f0;
+      transform: translateX(4px);
+      box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15);
+    }
+    
+    .recipe-card a { 
+      font-weight: 500; 
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    
+    .recipe-meta { 
+      font-size: 0.9rem; 
+      color: #666; 
+      margin-top: 0.3rem; 
+    }
+    
+    footer { 
+      margin-top: 3rem; 
+      padding-top: 1rem; 
+      border-top: 1px solid #ddd; 
+      font-size: 0.9rem; 
+      color: #666; 
+      text-align: center;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('.category-btn');
+      const sections = document.querySelectorAll('.category-section');
+      
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const category = btn.dataset.category;
+          
+          // Обновляем активную кнопку
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          // Показываем/скрываем секции
+          sections.forEach(section => {
+            if (category === 'all' || section.dataset.category === category) {
+              section.style.display = 'block';
+            } else {
+              section.style.display = 'none';
+            }
+          });
+        });
+      });
+      
+      // Активируем первую кнопку по умолчанию
+      if (buttons.length > 0) {
+        buttons[0].click();
+      }
+    });
+  </script>
+</head>
+<body>
+  <a href="/" class="back">← На главную</a>
+  
+  <h1>🍳 Рецепты</h1>
+  
+  <!-- Кнопки категорий -->
+  <div class="category-buttons">
+    <button class="category-btn active" data-category="all">📋 Все рецепты</button>
+    {categories.map(cat => (
+      <button class="category-btn" data-category={cat}>
+        {cat}
+      </button>
+    ))}
+  </div>
+  
+  <!-- Секции рецептов -->
+  {categories.map(cat => (
+    <div class="category-section" data-category={cat}>
+      <h2>{cat}</h2>
+      <div class="recipes-grid">
+        {grouped[cat].map(recipe => (
+          <div class="recipe-card">
+            <a href={`/recipes/${recipe.slug}/`}>{recipe.title}</a>
+            <div class="recipe-meta">
+              {recipe.prep_time && <span>⏱️ {recipe.prep_time}</span>}
+              {recipe.servings && <span> • 🍽️ {recipe.servings} порц.</span>}
+              {recipe.kcal && <span> • 🔥 {recipe.kcal} ккал</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+  
+  <footer>
+    <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
+    <p><a href="/">На главную</a></p>
+  </footer>
+</body>
+</html>

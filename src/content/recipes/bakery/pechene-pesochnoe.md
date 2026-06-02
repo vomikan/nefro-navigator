@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 8
 tags: [low-protein, dessert, cookie, quick]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-06
+date_added: "2024-12-06"
 notes: "Хрустящее печенье без избытка белка. Без разрыхлителя с фосфатами. Идеально к чаю."
 ---
 

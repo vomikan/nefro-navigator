@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 15
 tags: [low-protein, dessert, no-bake, nostalgic]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-06
+date_added: "2024-12-06"
 notes: "Классический десерт без выпечки. Основа — крошка МБ-хлеба + какао + домашний майонез вместо сливочного крема."
 ---
 

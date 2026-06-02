@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 10
 tags: [low-protein, staple, bread-maker, fiber]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-12
+date_added: "2024-12-12"
 notes: "Псилиум добавляет клетчатку и улучшает структуру теста без глютена. Белок снижен за счёт крахмала."
 ---
 

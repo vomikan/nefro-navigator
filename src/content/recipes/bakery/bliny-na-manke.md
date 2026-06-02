@@ -1,19 +1,18 @@
 ---
 title: "Оладьи на манке (низкобелковые)"
-stage: [1, 2, 3a, 3b, 4, 5-pd]
+stage: ["1", "2", "3a", "3b", "4", "5-pd"]
 servings: 4
 prep_time: "35 мин (+ набухание)"
-nutrients_per_serving:
-  kcal: 175
-  protein_g: 4
-  fat_g: 6
-  carbs_g: 27
-  potassium_mg: 95
-  phosphorus_mg: 48
-  sodium_mg: 18
-tags: [low-protein, breakfast, quick, semolina]
+kcal: 175
+protein_g: 4
+fat_g: 6
+carbs_g: 27
+potassium_mg: 95
+phosphorus_mg: 48
+sodium_mg: 18
+tags: ["low-protein", "breakfast", "quick", "semolina"]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-06
+date_added: "2024-12-06"
 notes: "Манка даёт нежную текстуру. Без яиц — полностью низкобелковый вариант. Идеальны с вареньем или мёдом."
 ---
 

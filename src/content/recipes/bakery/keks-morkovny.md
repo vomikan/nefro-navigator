@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 18
 tags: [low-protein, dessert, baking, carrot, moist]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-06
+date_added: "2024-12-06"
 notes: "Морковь даёт естественную сладость и влажность. Крахмал снижает белок. Идеален к чаю."
 ---
 

@@ -1,137 +1,81 @@
 ---
-import { getCollection } from 'astro:content';
-
-const allRecipes = await getCollection('recipes');
-
-const categoryMap: Record<string, string> = {
-  'soups': '🥣 Первое',
-  'main-dishes': '🍽️ Второе',
-  'snacks-sauces': '🥗 Салаты и соусы',
-  'desserts': '🍰 Десерты',
-  'bakery': '🍞 Выпечка',
-  'dumplings': '🥟 Пельмени и вареники',
-  'sides': '🥔 Гарниры',
-  'basics': '⚙️ Основы',
-};
-
-// Группировка по папкам (надёжно через recipe.id)
-const grouped: Record<string, typeof allRecipes> = {};
-
-for (const recipe of allRecipes) {
-  const path = recipe.id || '';
-  const folder = path.includes('/') ? path.split('/')[0] : 'other';
-  const catName = categoryMap[folder] || folder;
-  
-  if (!grouped[catName]) grouped[catName] = [];
-  grouped[catName].push(recipe);
-}
-
-const categories = Object.keys(grouped);
+// src/pages/index.astro — Главная навигация
 ---
 
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Petrov-Diet System</title>
+  <title>Petrov-Diet System | Питание при ХБП</title>
   <style>
-    :root { --primary: #2c5530; --bg: #f8f9fa; --card: #fff; --text: #333; --muted: #666; --border: #e0e0e0; }
+    :root { --primary: #2c5530; --secondary: #4a7c59; --bg: #f8f9fa; --card: #fff; --text: #333; --muted: #666; --border: #e0e0e0; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); padding: 1rem; }
-    .container { max-width: 1000px; margin: 0 auto; }
+    body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); }
     
-    header { text-align: center; padding: 2rem 1rem; background: var(--card); border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-    h1 { color: var(--primary); margin-bottom: 0.5rem; }
-    .stats { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; font-size: 0.9rem; }
-    .stat { background: #e8f5e9; padding: 0.3rem 0.7rem; border-radius: 15px; }
+    .hero { text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; }
+    .hero h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+    .hero p { font-size: 1.1rem; opacity: 0.95; max-width: 600px; margin: 0 auto 1.5rem; }
     
-    .filters { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; padding: 0.5rem; background: var(--card); border-radius: 8px; }
-    .filter-btn { padding: 0.4rem 0.9rem; border: 2px solid var(--border); background: #fff; border-radius: 6px; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; }
-    .filter-btn:hover { border-color: var(--primary); background: #f0f7f1; }
-    .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .nav-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; max-width: 900px; margin: -2rem auto 2rem; padding: 0 1rem; }
+    .nav-card { background: var(--card); border-radius: 12px; padding: 1.5rem; text-align: center; text-decoration: none; color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; border-top: 4px solid var(--primary); }
+    .nav-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+    .nav-card.coming { opacity: 0.7; cursor: not-allowed; }
+    .nav-card .icon { font-size: 2.5rem; margin-bottom: 0.5rem; display: block; }
+    .nav-card h3 { font-size: 1.2rem; margin-bottom: 0.3rem; }
+    .nav-card p { font-size: 0.95rem; color: var(--muted); }
+    .badge { display: inline-block; background: #e8f5e9; color: var(--primary); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem; margin-top: 0.5rem; }
     
-    .category { display: none; margin-bottom: 2rem; }
-    .category.active { display: block; }
-    .category h2 { color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem; }
+    .info { max-width: 900px; margin: 0 auto 2rem; padding: 0 1rem; }
+    .info-box { background: var(--card); border-radius: 8px; padding: 1rem 1.5rem; border-left: 4px solid var(--secondary); }
+    .info-box h4 { color: var(--primary); margin-bottom: 0.5rem; }
+    .info-box p { font-size: 0.95rem; color: var(--muted); }
     
-    .recipe-list { list-style: none; display: grid; gap: 0.6rem; }
-    .recipe-item { background: var(--card); padding: 0.8rem 1rem; border-radius: 8px; border-left: 4px solid var(--primary); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .recipe-item a { text-decoration: none; color: var(--text); font-weight: 500; font-size: 1.05rem; display: block; margin-bottom: 0.3rem; }
-    .recipe-item a:hover { color: var(--primary); }
-    .meta { font-size: 0.85rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .badge { background: #e0e7ff; color: #3730a3; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.8rem; }
-    .nutrient { background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 3px; }
-    
-    footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+    footer { text-align: center; padding: 2rem 1rem; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 2rem; }
     footer a { color: var(--primary); text-decoration: none; }
     
-    @media (max-width: 600px) { .filters { overflow-x: auto; justify-content: flex-start; } .filter-btn { flex-shrink: 0; } }
+    @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } .nav-grid { grid-template-columns: 1fr; } }
   </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const buttons = document.querySelectorAll('.filter-btn');
-      const sections = document.querySelectorAll('.category');
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const target = btn.dataset.cat;
-          buttons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          sections.forEach(sec => sec.classList.toggle('active', target === 'all' || sec.id === target));
-        });
-      });
-    });
-  </script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🥗 Petrov-Diet System</h1>
-      <p>База знаний по питанию при ХБП</p>
-      <div class="stats">
-        <span class="stat">📦 {allRecipes.length} рецептов</span>
-        <span class="stat">🗂️ {categories.length} категорий</span>
-      </div>
-    </header>
+  <header class="hero">
+    <h1>🥗 Petrov-Diet System</h1>
+    <p>База знаний по питанию при хронической болезни почек</p>
+  </header>
 
-    <nav class="filters">
-      <button class="filter-btn active" data-cat="all">🔍 Все</button>
-      {categories.map(cat => {
-        const safeId = cat.replace(/[^\wа-яА-ЯёЁ0-9-]/g, '');
-        return <button class="filter-btn" data-cat={safeId}>{cat}</button>;
-      })}
-    </nav>
+  <nav class="nav-grid">
+    <a href="/recipes/" class="nav-card">
+      <span class="icon">🍽️</span>
+      <h3>Рецепты</h3>
+      <p>94+ адаптированных блюда с расчётом БЖУК, калия, фосфора и натрия</p>
+      <span class="badge">✅ Готово</span>
+    </a>
+    
+    <a href="#" class="nav-card coming">
+      <span class="icon">📚</span>
+      <h3>Статьи</h3>
+      <p>Материалы о диете, анализах, лекарствах и образе жизни при ХБП</p>
+      <span class="badge">🚧 Скоро</span>
+    </a>
+    
+    <a href="#" class="nav-card coming">
+      <span class="icon">❓</span>
+      <h3>ЧаВо (FAQ)</h3>
+      <p>Ответы на частые вопросы пациентов с ХБП</p>
+      <span class="badge">🚧 Скоро</span>
+    </a>
+  </nav>
 
-    {categories.map(cat => {
-      const safeId = cat.replace(/[^\wа-яА-ЯёЁ0-9-]/g, '');
-      const recipes = grouped[cat];
-      return (
-        <section id={safeId} class={`category ${cat === categories[0] ? 'active' : ''}`}>
-          <h2>{cat}</h2>
-          <ul class="recipe-list">
-            {recipes.map(recipe => {
-              const { title, stage, servings, nutrients_per_serving } = recipe.data;
-              const displayName = title || recipe.id.replace(/\//g, ' / ');
-              return (
-                <li class="recipe-item">
-                  <a href={`/recipes/${recipe.slug || recipe.id}/`}>{displayName}</a>
-                  <div class="meta">
-                    {stage?.slice(0, 3).map(s => <span class="badge">{s}</span>)}
-                    {nutrients_per_serving?.kcal && <span class="nutrient">⚡ {nutrients_per_serving.kcal} ккал</span>}
-                    {nutrients_per_serving?.protein_g && <span class="nutrient">🥩 Б: {nutrients_per_serving.protein_g}г</span>}
-                    {servings && <span>🍽️ {servings} порц.</span>}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      );
-    })}
+  <main class="info">
+    <div class="info-box">
+      <h4>⚠️ Важно</h4>
+      <p>Материалы носят информационно-образовательный характер и не заменяют консультацию врача. Диета при ХБП строго индивидуальна — согласуйте рацион с вашим нефрологом.</p>
+    </div>
+  </main>
 
-    <footer>
-      <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
-      <p>Лицензия: CC BY-NC-SA 4.0 | <a href="https://github.com/vomikan/petrov-diet-system">GitHub</a></p>
-    </footer>
-  </div>
+  <footer>
+    <p>Лицензия: <a href="/LICENSE">CC BY-NC-SA 4.0</a> | <a href="https://github.com/vomikan/petrov-diet-system">GitHub</a></p>
+    <p>© 2024 Petrov-Diet System. Создано пациентами для пациентов.</p>
+  </footer>
 </body>
 </html>

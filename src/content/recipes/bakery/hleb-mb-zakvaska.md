@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 8
 tags: [low-protein, staple, sourdough, fermented]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-15
+date_added: "2024-12-15"
 notes: "Закваска улучшает усвоение и снижает фитаты. Белок снижен за счёт крахмала. Без соли и промышленных добавок."
 ---
 

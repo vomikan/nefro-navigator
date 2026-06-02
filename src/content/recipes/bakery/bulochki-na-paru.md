@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 5
 tags: [low-protein, steamed, gentle, breakfast]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-05
+date_added: "2024-12-05"
 notes: "Щадящая термическая обработка — пар. Без корочки, легко усваивается. Идеально при чувствительном ЖКТ."
 ---
 

@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 20
 tags: [low-protein, dessert, baking, sweet]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-14
+date_added: "2024-12-14"
 notes: "Тесто на крахмале, начинка из творога 5% или фруктового пюре. Без избытка фосфора."
 ---
 

@@ -13,7 +13,7 @@ nutrients_per_serving:
   sodium_mg: 5
 tags: [low-protein, staple, wrap, starch-base]
 author: "Игорь / Сообщество ХБП"
-date_added: 2024-12-04
+date_added: "2024-12-04"
 notes: "Тонкие лепёшки на крахмале для шаурмы, роллов, закусок. Без дрожжей и соли."
 ---
 
