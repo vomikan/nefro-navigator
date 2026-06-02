@@ -20,10 +20,20 @@ function walkDir(dir: string, baseDir = '') {
       const content = fs.readFileSync(filePath, 'utf-8');
       const { data: frontmatter } = matter(content);
       const slug = baseDir ? `${baseDir}/${file.replace('.md', '')}` : file.replace('.md', '');
+
+	  // 🔑 Извлекаем нутриенты из вложенной структуры
+      const n = frontmatter.nutrients_per_serving || {};
       
       allRecipes.push({
         slug,
         ...frontmatter,
+		kcal: n.kcal,
+        protein_g: n.protein_g,
+        fat_g: n.fat_g,
+        carbs_g: n.carbs_g,
+        potassium_mg: n.potassium_mg,
+        phosphorus_mg: n.phosphorus_mg,
+        sodium_mg: n.sodium_mg,
       });
     }
   });
@@ -214,7 +224,14 @@ const categories = Object.keys(grouped).sort((a, b) => {
           <div class="recipe-card">
             <a href={`/recipes/${recipe.slug}/`}>{recipe.title}</a>
             <div class="recipe-meta">
-              {recipe.prep_time && <span>⏱️ {recipe.prep_time}</span>}
+              {/* 🔑 Добавлен вывод стадий */}
+              {recipe.stage && (
+                <span>
+                  🩺 {Array.isArray(recipe.stage) ? recipe.stage.join(', ') : recipe.stage}
+                </span>
+              )}
+              
+              {recipe.prep_time && <span> • ⏱️ {recipe.prep_time}</span>}
               {recipe.servings && <span> • 🍽️ {recipe.servings} порц.</span>}
               {recipe.kcal && <span> • 🔥 {recipe.kcal} ккал</span>}
             </div>

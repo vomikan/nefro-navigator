@@ -1,6 +1,6 @@
 ---
 title: "Блины низкобелковые (на крахмале)"
-stage: [1, 2, 3a, 3b, 4, 5-pd]
+stage: ["1", "2", "3a", "3b", "4", "5-pd"]
 servings: 4
 prep_time: "20 мин"
 nutrients_per_serving:

@@ -29,7 +29,10 @@ const { data: frontmatter, content } = matter(fileContent);
 // Парсим markdown в HTML
 const html = await marked(content);
 
-const { title, stage, servings, prep_time, kcal, protein_g, fat_g, carbs_g, potassium_mg, phosphorus_mg, sodium_mg, notes } = frontmatter;
+const { title, stage, servings, prep_time, notes } = frontmatter;
+// 🔑 Извлекаем нутриенты из вложенной структуры
+const n = frontmatter.nutrients_per_serving || {};
+const { kcal, protein_g, fat_g, carbs_g, potassium_mg, phosphorus_mg, sodium_mg } = n;
 ---
 
 <html lang="ru">
