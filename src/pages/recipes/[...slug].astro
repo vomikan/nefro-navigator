@@ -1,0 +1,54 @@
+---
+// src/pages/recipes/[...slug].astro
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const recipes = await getCollection('recipes');
+  return recipes.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { title, stage, servings, prep_time, nutrients_per_serving, tags, notes } = post.data;
+---
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>{title} | CKD-Diet</title>
+  <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+  <article>
+    <header>
+      <h1>{title}</h1>
+      {stage && <p><strong>Стадии ХБП:</strong> {stage.join(', ')}</p>}
+      {servings && <p><strong>Порций:</strong> {servings}</p>}
+      {prep_time && <p><strong>Время:</strong> {prep_time}</p>}
+    </header>
+
+    {nutrients_per_serving && (
+      <section>
+        <h2>Нутриенты на порцию</h2>
+        <table>
+          <tr><td>Ккал</td><td>{nutrients_per_serving.kcal}</td></tr>
+          <tr><td>Белок</td><td>{nutrients_per_serving.protein_g} г</td></tr>
+          {nutrients_per_serving.fat_g && <tr><td>Жиры</td><td>{nutrients_per_serving.fat_g} г</td></tr>}
+          {nutrients_per_serving.carbs_g && <tr><td>Углеводы</td><td>{nutrients_per_serving.carbs_g} г</td></tr>}
+          <tr><td>Калий</td><td>{nutrients_per_serving.potassium_mg} мг</td></tr>
+          <tr><td>Фосфор</td><td>{nutrients_per_serving.phosphorus_mg} мг</td></tr>
+          <tr><td>Натрий</td><td>{nutrients_per_serving.sodium_mg} мг</td></tr>
+        </table>
+      </section>
+    )}
+
+    <section>
+      <Content />
+    </section>
+
+    {notes && <footer><p><em>Примечание:</em> {notes}</p></footer>}
+  </article>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "petrov-diet-system",
+  "version": "1.0.0",
+  "description": "Адаптированные рецепты и клинически обоснованные рекомендации по питанию при хронической болезни почек.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "keywords": [
+    "хбп",
+    "нефрология",
+    "диета",
+    "рецепты",
+    "мбд"
+  ],
+  "author": "Игорь Петров и сообщество",
+  "license": "CC-BY-NC-SA-4.0",
+  "dependencies": {
+    "@astrojs/mdx": "^6.0.1",
+    "astro": "^6.4.3"
+  }
+}

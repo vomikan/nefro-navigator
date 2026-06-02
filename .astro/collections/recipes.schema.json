@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "stage": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "1",
+              "2",
+              "4",
+              "5",
+              "3a",
+              "3b",
+              "5-pd",
+              "5-hd"
+            ]
+          },
+          {
+            "type": "number"
+          }
+        ]
+      }
+    },
+    "servings": {
+      "type": "number"
+    },
+    "prep_time": {
+      "type": "string"
+    },
+    "nutrients_per_serving": {
+      "type": "object",
+      "properties": {
+        "kcal": {
+          "type": "number"
+        },
+        "protein_g": {
+          "type": "number"
+        },
+        "fat_g": {
+          "type": "number"
+        },
+        "carbs_g": {
+          "type": "number"
+        },
+        "potassium_mg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "phosphorus_mg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "sodium_mg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "author": {
+      "type": "string"
+    },
+    "date_added": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ]
+    },
+    "notes": {
+      "type": "string"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}
