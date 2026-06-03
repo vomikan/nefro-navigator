@@ -1,0 +1,52 @@
+---
+// src/pages/faq/index.astro
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+const faqDir = path.join(process.cwd(), 'src/content/faq');
+const allFaqs: any[] = [];
+
+if (fs.existsSync(faqDir)) {
+  fs.readdirSync(faqDir).forEach(file => {
+    if (file.endsWith('.md')) {
+      const { data: frontmatter } = matter(fs.readFileSync(path.join(faqDir, file), 'utf-8'));
+      allFaqs.push({ slug: file.replace('.md', ''), ...frontmatter });
+    }
+  });
+}
+---
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>ЧаВо | Petrov-Diet</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 1rem; color: #333; }
+    a { color: #2c5530; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { display: inline-block; margin-bottom: 1rem; }
+    h1 { margin-bottom: 1.5rem; }
+    .faq-list { list-style: none; padding: 0; }
+    .faq-item { background: #f9f9f9; padding: 1rem; margin: 0.5rem 0; border-radius: 6px; border-left: 4px solid #4caf50; }
+    .faq-item a { font-weight: 500; font-size: 1.05rem; display: block; margin-bottom: 0.3rem; }
+    .faq-meta { font-size: 0.85rem; color: #666; }
+    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; text-align: center; }
+  </style>
+</head>
+<body>
+  <a href="/" class="back">← На главную</a>
+  <h1>❓ Часто задаваемые вопросы (ЧаВо)</h1>
+  <ul class="faq-list">
+    {allFaqs.map(faq => (
+      <li class="faq-item">
+        <a href={`/faq/${faq.slug}/`}>{faq.question || 'Без заголовка'}</a>
+        {faq.category && <span class="faq-meta">🏷️ {faq.category}</span>}
+      </li>
+    ))}
+  </ul>
+  <footer>
+    <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
+  </footer>
+</body>
+</html>
