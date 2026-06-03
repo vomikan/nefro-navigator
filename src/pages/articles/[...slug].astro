@@ -1,0 +1,99 @@
+---
+// src/pages/articles/[...slug].astro
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+import { marked } from 'marked';
+
+export const prerender = false;
+
+const slug = Astro.params.slug;
+if (!slug) return new Response('Not found', { status: 404 });
+
+const filePath = path.join(process.cwd(), 'src/content/articles', slug + '.md');
+if (!fs.existsSync(filePath)) return new Response('Not found', { status: 404 });
+
+const fileContent = fs.readFileSync(filePath, 'utf-8');
+const { data: frontmatter, content } = matter(fileContent);
+const html = await marked(content);
+
+const { title, category, date_updated, author, reading_time } = frontmatter;
+---
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{title} | Petrov-Diet</title>
+  <style>
+    /* Базовые стили (локальные) */
+    body { font-family: system-ui, sans-serif; line-height: 1.7; max-width: 800px; margin: 0 auto; padding: 1rem; color: #333; }
+    a { color: #2c5530; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { display: inline-block; margin-bottom: 1rem; }
+    .article-header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid #e8f5e9; }
+    .article-header h1 { margin: 0 0 0.5rem; font-size: 1.8rem; line-height: 1.3; }
+    .article-meta { font-size: 0.9rem; color: #666; display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    article { margin: 2rem 0; }
+    article h2 { font-size: 1.4rem; margin: 2rem 0 1rem; padding-bottom: 0.3rem; border-bottom: 1px solid #eee; }
+    article h3 { font-size: 1.2rem; margin: 1.5rem 0 0.8rem; }
+    article p { margin: 0.8rem 0; }
+    article ul, article ol { margin: 0.8rem 0; padding-left: 1.5rem; }
+    article li { margin: 0.3rem 0; }
+    article blockquote { border-left: 4px solid #4caf50; padding: 0.8rem 1rem; margin: 1.5rem 0; background: #f8f9fa; border-radius: 0 6px 6px 0; color: #444; }
+    article strong { color: #2c5530; }
+    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; text-align: center; }
+  
+    /* 🌍 Глобальные стили для динамического контента (таблицы из Markdown) */
+    :global(article table) {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.95rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    :global(article table th),
+    :global(article table td) {
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    :global(article table th) {
+      background-color: rgba(0, 102, 204, 0.08);
+      font-weight: 600;
+      border-bottom: 2px solid rgba(0, 102, 204, 0.3);
+    }
+    :global(article table tr:nth-child(even)) {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+    :global(article table tr:hover) {
+      background-color: rgba(0, 102, 204, 0.05);
+    }
+    @media (max-width: 768px) {
+      :global(article table) { font-size: 0.85rem; }
+      :global(article table th),
+      :global(article table td) { padding: 0.5rem 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <a href="/articles/" class="back">← Назад к статьям</a>
+  <header class="article-header">
+    <h1>{title}</h1>
+    <div class="article-meta">
+      {category && <span>🏷️ {category}</span>}
+      {date_updated && <span>📅 Обновлено: {date_updated}</span>}
+      {author && <span>✍️ {author}</span>}
+      {reading_time && <span>⏱️ {reading_time} мин.</span>}
+    </div>
+  </header>
+  <article set:html={html} />
+  <footer>
+    <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
+    <p><a href="/">На главную</a> | <a href="/articles/">К статьям</a></p>
+  </footer>
+</body>
+</html>
