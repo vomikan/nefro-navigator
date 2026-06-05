@@ -5,10 +5,10 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 
-// 🔑 1. Константа для динамических ссылок
+// 🔑 1. Константа для ссылок (обязательно в блоке ---)
 const BASE = '/nefro-navigator';
 
-// 🔑 2. Функция генерации путей (обязательна для статики!)
+// 🔑 2. Генерация путей для статической сборки
 export async function getStaticPaths() {
   const articlesDir = path.join(process.cwd(), 'src/content/articles');
   const paths = [];
@@ -65,7 +65,6 @@ const { title, category, date_updated, author, reading_time } = frontmatter;
     article blockquote { border-left: 4px solid #4caf50; padding: 0.8rem 1rem; margin: 1.5rem 0; background: #f8f9fa; border-radius: 0 6px 6px 0; color: #444; }
     article strong { color: #2c5530; }
     
-    /* 📊 Глобальные стили для таблиц из Markdown */
     :global(article table) { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; }
     :global(article table th), :global(article table td) { border: 1px solid rgba(0, 0, 0, 0.15); padding: 0.75rem 1rem; text-align: left; vertical-align: top; }
     :global(article table th) { background-color: rgba(0, 102, 204, 0.08); font-weight: 600; border-bottom: 2px solid rgba(0, 102, 204, 0.3); }
@@ -77,8 +76,8 @@ const { title, category, date_updated, author, reading_time } = frontmatter;
   </style>
 </head>
 <body>
-  <!-- 🔑 Статическая ссылка: Astro сам добавит base -->
-  <a href="${BASE}/nefro-navigator/articles/" class="back">← Назад к статьям</a>
+  <!-- 🔑 Правильный синтаксис: { `...` } -->
+  <a href={`${BASE}/articles/`} class="back">← Назад к статьям</a>
   
   <header class="article-header">
     <h1>{title}</h1>
@@ -95,9 +94,9 @@ const { title, category, date_updated, author, reading_time } = frontmatter;
   <footer>
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
     <p>
-      <!-- 🔑 Статические ссылки: Astro сам добавит base -->
-      <a href="${BASE}/">На главную</a> | 
-      <a href="${BASE}/articles/">К статьям</a>
+      <!-- 🔑 Ссылка на главную -->
+      <a href={`${BASE}/`}>На главную</a> | 
+      <a href={`${BASE}/articles/`}>К статьям</a>
     </p>
   </footer>
 </body>
