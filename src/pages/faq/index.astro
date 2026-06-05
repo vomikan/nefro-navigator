@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+const BASE = '/nefro-navigator'; // 🔑 Константа для динамических ссылок
 const faqDir = path.join(process.cwd(), 'src/content/faq');
 const allFaqs = [];
 
@@ -55,8 +56,8 @@ if (fs.existsSync(faqDir)) {
   </style>
 </head>
 <body>
-  <!-- 🔑 Astro.resolve() добавит /nefro-navigator/ автоматически -->
-  <a href={Astro.resolve('/')} class="back">← На главную</a>
+  <!-- 🔑 Статические ссылки: Astro сам добавит base -->
+  <a href="/" class="back">← На главную</a>
   <h1>❓ Часто задаваемые вопросы</h1>
   
   <div class="search-box">
@@ -68,8 +69,8 @@ if (fs.existsSync(faqDir)) {
   <ul class="faq-list" id="faq-list">
     {allFaqs.map(faq => (
       <li class="faq-item" data-search={faq._search}>
-        <!-- 🔑 Исправленная ссылка с Astro.resolve() -->
-        <a href={Astro.resolve(`/faq/${faq.slug}/`)}>{faq.question}</a>
+        <!-- 🔑 Динамическая ссылка: вручную добавляем BASE -->
+        <a href={`${BASE}/faq/${faq.slug}/`}>{faq.question}</a>
         {faq.category && <span class="faq-meta">🏷️ {faq.category}</span>}
       </li>
     ))}
@@ -80,8 +81,9 @@ if (fs.existsSync(faqDir)) {
   <footer>
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
     <p>
-      <a href={Astro.resolve('/')}>На главную</a> | 
-      <a href={Astro.resolve('/faq/')}>К ЧаВо</a>
+      <!-- Статические ссылки в футере: Astro сам добавит base -->
+      <a href="/">На главную</a> | 
+      <a href="/faq/">К ЧаВо</a>
     </p>
   </footer>
 

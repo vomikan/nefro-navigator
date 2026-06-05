@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+const BASE = '/nefro-navigator'; // 🔑 Константа для динамических ссылок
 const recipesDir = path.join(process.cwd(), 'src/content/recipes');
 const allRecipes: any[] = [];
 
@@ -135,7 +136,7 @@ const categories = Object.keys(grouped).sort((a, b) => {
   </style>
 </head>
 <body>
-  <a href={Astro.resolve('/')} class="back">← На главную</a>
+  <a href="/" class="back">← На главную</a>
   <h1>🍳 Рецепты</h1>
 
   <!-- 1. Поиск -->
@@ -170,7 +171,7 @@ const categories = Object.keys(grouped).sort((a, b) => {
       <div class="recipes-grid">
         {grouped[cat].map(recipe => (
           <div class="recipe-card" data-search={recipe._search} data-stages={recipe._stagesStr}>
-            <a href={Astro.resolve(`/recipes/${recipe.slug}/`)}>{recipe.title}</a>
+            <a href={`${BASE}/recipes/${recipe.slug}/`}>{recipe.title}</a>
             <div class="recipe-meta">
               <!-- Стадии теперь снова тут -->
               {recipe.stage.length > 0 && (

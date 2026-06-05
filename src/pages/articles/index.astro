@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+const BASE = '/nefro-navigator'; // 🔑 Константа для динамических ссылок
 const articlesDir = path.join(process.cwd(), 'src/content/articles');
 const allArticles = [];
 
@@ -56,7 +57,7 @@ if (fs.existsSync(articlesDir)) {
   </style>
 </head>
 <body>
-  <a href="/nefro-navigator/" class="back">← На главную</a>
+  <a href="/" class="back">← На главную</a>
   <h1>📚 Статьи и материалы</h1>
 
   <div class="search-box">
@@ -68,7 +69,7 @@ if (fs.existsSync(articlesDir)) {
   <ul class="article-list" id="article-list">
     {allArticles.map(article => (
       <li class="article-card" data-search={article._search}>
-        <a href={Astro.resolve(`/articles/${article.slug}/`)}>{article.title}</a>
+        <a href={`${BASE}/articles/${article.slug}/`}>{article.title}</a>
         <div class="article-meta">
           {article.category && <span>🏷️ {article.category}</span>}
           {article.date_updated && <span>📅 {article.date_updated}</span>}
