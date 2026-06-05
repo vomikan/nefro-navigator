@@ -81,7 +81,7 @@ const { kcal, protein_g, fat_g, carbs_g, potassium_mg, phosphorus_mg, sodium_mg 
   
   <article set:html={html} />
   
-  {notes && <div class="notes"><strong>💡 Примечание:</strong> {notes}</div>}
+  {notes && <div class="notes" set:html={await marked(`**💡 Примечание:** ${notes}`)} />}
   
   <footer>
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>

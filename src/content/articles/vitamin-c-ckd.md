@@ -1,12 +1,15 @@
 ﻿---
-title: "Витамин С и ХБП: польза и риски — где грань между дефицитом и токсичностью"
+title: "Витамин С и ХБП: польза и риски..."
 category: "Лекарственная терапия и нутритивная поддержка"
 date_updated: "2026-06-03"
 author: "НефроНавигатор"
 reading_time: 9
 guidelines: ["KDOQI 2020", "KDIGO 2024"]
 evidence_level: "A"
-related_articles: ["iron-supplementation-ckd", "oxalate-nephropathy-prevention", "dialysis-nutrition-losses"]
+related_articles: 
+  - "iron-supplementation-ckd"
+  - "oxalate-nephropathy-prevention"
+  - "dialysis-nutrition-losses"
 ---
 
 ## Витамин С при ХБП: почему «безопасный антиоксидант» может навредить
@@ -111,7 +114,6 @@ related_articles: ["iron-supplementation-ckd", "oxalate-nephropathy-prevention",
 > 💡 **Лайфхак:** Готовьте «витаминный микс» на неделю: нарезанный болгарский перец + петрушка + лимонный сок (без сахара) в контейнере. Храните в холодильнике, добавляйте к гарнирам — это безопасно, вкусно и покрывает потребность в витамине С без риска перегрузки калием.
 
 ---
-📖 *Продолжение: «Оксалаты и ХБП: как предотвратить камнеобразование и защитить канальцы»*
 
 📚 **Источники:**
 - KDOQI Clinical Practice Guideline for Nutrition in CKD: 2020 Update

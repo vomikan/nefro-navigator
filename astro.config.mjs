@@ -1,10 +1,9 @@
+// astro.config.mjs
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://vomikan.github.io',
-  // base: '/petrov-diet-system/',  // ← ЗАКОММЕНТИРУЙТЕ для localhost
-  markdown: {
-    syntaxHighlight: 'shiki',
-    shikiConfig: { theme: 'github-light' },
-  },
+  // 🔑 Имя должно совпадать с названием репозитория на GitHub
+  base: '/nefro-navigator/',
+  output: 'static',
+  integrations: [],
 });

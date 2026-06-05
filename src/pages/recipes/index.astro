@@ -16,38 +16,43 @@ function walkDir(dir: string, baseDir = '') {
       walkDir(filePath, baseDir ? `${baseDir}/${file}` : file);
     } else if (file.endsWith('.md')) {
       const content = fs.readFileSync(filePath, 'utf-8');
-      const { data: frontmatter } = matter(content);
+      const { data: frontmatter, content: body } = matter(content);
       const slug = baseDir ? `${baseDir}/${file.replace('.md', '')}` : file.replace('.md', '');
       
-      // Нормализация нутриентов (поддерживаем вложенный и плоский формат)
+      // 🔑 1. Нормализация стадий (всё в строки: "1" == 1)
+      const rawStages = Array.isArray(frontmatter.stage) ? frontmatter.stage : (frontmatter.stage ? [frontmatter.stage] : []);
+      const stages = rawStages.map(String);
+
+      // 🔑 2. Нормализация нутриентов
       const n = frontmatter.nutrients_per_serving || frontmatter;
+
+      // 🔑 3. Индекс для полнотекстового поиска
+      const searchIndex = [
+        frontmatter.title,
+        frontmatter.tags?.join(' '),
+        frontmatter.notes,
+        body // <-- ищем и по ингредиентам тоже
+      ].filter(Boolean).join(' ').toLowerCase().replace(/[^a-zа-яё0-9\s]/gi, ' ');
+      
       allRecipes.push({
         slug,
         ...frontmatter,
-        kcal: n.kcal,
-        protein_g: n.protein_g,
-        fat_g: n.fat_g,
-        carbs_g: n.carbs_g,
-        potassium_mg: n.potassium_mg,
-        phosphorus_mg: n.phosphorus_mg,
-        sodium_mg: n.sodium_mg,
+        stage: stages, // Перезаписываем чистым массивом строк
+        _stagesStr: stages.join(','), // Для JS-фильтра
+        kcal: n.kcal, protein_g: n.protein_g, fat_g: n.fat_g,
+        carbs_g: n.carbs_g, potassium_mg: n.potassium_mg,
+        phosphorus_mg: n.phosphorus_mg, sodium_mg: n.sodium_mg,
+        _search: searchIndex,
       });
     }
   });
 }
 walkDir(recipesDir);
 
-// 🔑 Сортировка стадий по медицинскому стандарту
+// 🔑 Собираем уникальные стадии для кнопок фильтра
 const stageOrder = ['1', '2', '3a', '3b', '4', '5', '5-pd', '5-hd'];
-const allStages = [...new Set(
-  allRecipes
-    .flatMap(r => Array.isArray(r.stage) ? r.stage : (r.stage ? [r.stage] : []))
-    .filter(Boolean)
-    .map(String)
-)].sort((a, b) => {
-  const idxA = stageOrder.indexOf(a);
-  const idxB = stageOrder.indexOf(b);
-  return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+const allStages = [...new Set(allRecipes.flatMap(r => r.stage))].sort((a, b) => {
+  return (stageOrder.indexOf(a) || 99) - (stageOrder.indexOf(b) || 99);
 });
 
 const categoryMap: Record<string, string> = {
@@ -86,122 +91,200 @@ const categories = Object.keys(grouped).sort((a, b) => {
     a:hover { text-decoration: underline; }
     .back { display: inline-block; margin-bottom: 1rem; }
     
+    /* Поиск */
+    .search-box { margin: 1rem 0 1.5rem; position: relative; }
+    #recipe-search { width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; }
+    #recipe-search:focus { outline: none; border-color: #4caf50; }
+    .search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: #666; pointer-events: none; }
+    #search-clear { position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; cursor: pointer; font-size: 1.2rem; display: none; }
+    #search-clear.visible { display: block; }
+    .search-stats { font-size: 0.9rem; color: #666; margin: 0.5rem 0; display: none; }
+    .search-stats.visible { display: block; }
+
+    /* Кнопки категорий */
     .category-buttons { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1.5rem 0; }
-    .category-btn { padding: 0.8rem 1.2rem; border: 2px solid #e8f5e9; background: #fff; color: #2c5530; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 500; transition: all 0.3s ease; }
-    .category-btn:hover { background: #e8f5e9; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2); }
+    .category-btn { padding: 0.8rem 1.2rem; border: 2px solid #e8f5e9; background: #fff; color: #2c5530; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 500; }
+    .category-btn:hover { background: #e8f5e9; }
     .category-btn.active { background: #4caf50; color: white; border-color: #4caf50; }
-    
+
+    /* Фильтр стадий */
     .stage-filter-bar { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0; padding: 0.8rem; background: #f8f9fa; border-radius: 8px; align-items: center; }
     .stage-filter-label { font-weight: 500; color: #333; margin-right: 0.5rem; }
-    .stage-filter-btn { padding: 0.3rem 0.7rem; border: 1px solid #c7d2fe; background: #fff; color: #1e40af; border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; }
+    .stage-filter-btn { padding: 0.3rem 0.7rem; border: 1px solid #c7d2fe; background: #fff; color: #1e40af; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
     .stage-filter-btn:hover { background: #e0e7ff; }
     .stage-filter-btn.active { background: #2563eb; color: white; border-color: #2563eb; }
-    #reset-stage-filter { margin-left: auto; padding: 0.3rem 0.8rem; background: #fff; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
-    #reset-stage-filter:hover { background: #e5e7eb; }
-    
+    #reset-stage-filter { margin-left: auto; padding: 0.3rem 0.8rem; background: #fff; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; }
+
+    /* Списки */
     .recipes-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
     .category-section { margin: 2rem 0; }
     .category-section h2 { margin-top: 0; border-bottom: 2px solid #e8f5e9; padding-bottom: 0.5rem; }
     
-    .recipe-card { background: #f9f9f9; padding: 1rem; margin: 0.5rem 0; border-radius: 6px; border-left: 4px solid #4caf50; transition: all 0.3s ease; }
-    .recipe-card:hover { background: #f0f7f0; transform: translateX(4px); box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15); }
+    /* Карточка */
+    .recipe-card { background: #f9f9f9; padding: 1rem; margin: 0.5rem 0; border-radius: 6px; border-left: 4px solid #4caf50; transition: opacity 0.2s; }
+    .recipe-card.hidden { display: none; }
     .recipe-card a { font-weight: 500; font-size: 1.1rem; display: block; margin-bottom: 0.3rem; }
     
-    .recipe-meta { font-size: 0.9rem; color: #666; margin-top: 0.3rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
-    .stage-badges { display: inline-flex; gap: 0.2rem; }
-    .stage-badge { background: #e5e7eb; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.8rem; color: #333; }
+    .recipe-meta { font-size: 0.9rem; color: #666; margin-top: 0.3rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+    .stages { background: #e5e7eb; color: #333; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.8rem; font-weight: 500; }
+
+    .no-results { text-align: center; color: #666; padding: 2rem; font-style: italic; display: none; }
+    .no-results.visible { display: block; }
     
     footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; text-align: center; }
   </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Фильтр по категориям
-      const catButtons = document.querySelectorAll('.category-btn');
-      const catSections = document.querySelectorAll('.category-section');
-      catButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const cat = btn.dataset.category;
-          catButtons.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          catSections.forEach(sec => {
-            sec.style.display = (cat === 'all' || sec.dataset.category === cat) ? 'block' : 'none';
-          });
-        });
-      });
-
-      // Фильтр по стадиям
-      const stageButtons = document.querySelectorAll('.stage-filter-btn');
-      const resetBtn = document.getElementById('reset-stage-filter');
-      const recipeCards = document.querySelectorAll('.recipe-card');
-
-      function applyStageFilter(stage) {
-        recipeCards.forEach(card => {
-          const stages = card.dataset.stages ? card.dataset.stages.split(',') : [];
-          card.style.display = (!stage || stages.includes(stage)) ? 'block' : 'none';
-        });
-        stageButtons.forEach(b => b.classList.toggle('active', b.dataset.stage === stage));
-        if (resetBtn) resetBtn.classList.toggle('active', !stage);
-      }
-
-      stageButtons.forEach(btn => {
-        btn.addEventListener('click', () => applyStageFilter(btn.dataset.stage));
-      });
-
-      if (resetBtn) {
-        resetBtn.addEventListener('click', () => applyStageFilter(null));
-      }
-    });
-  </script>
 </head>
 <body>
   <a href="/" class="back">← На главную</a>
   <h1>🍳 Рецепты</h1>
 
+  <!-- 1. Поиск -->
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="recipe-search" placeholder="Поиск по названию, ингредиентам..." autocomplete="off" />
+    <button id="search-clear" title="Очистить">×</button>
+  </div>
+  <div id="search-stats" class="search-stats">Найдено: <span id="found-count">0</span></div>
+
+  <!-- 2. Фильтр категорий -->
   <div class="category-buttons">
-    <button class="category-btn active" data-category="all">📋 Все рецепты</button>
+    <button class="category-btn active" data-category="all">📋 Все</button>
     {categories.map(cat => (
       <button class="category-btn" data-category={cat}>{cat}</button>
     ))}
   </div>
 
+  <!-- 3. Фильтр стадий (вернули!) -->
   <div class="stage-filter-bar">
     <span class="stage-filter-label">🩺 Стадия:</span>
-    <button id="reset-stage-filter" class="active">Все</button>
+    <button id="reset-stage-filter">Все</button>
     {allStages.map(stage => (
       <button class="stage-filter-btn" data-stage={stage}>{stage}</button>
     ))}
   </div>
 
+  <!-- 4. Секции -->
   {categories.map(cat => (
     <div class="category-section" data-category={cat}>
       <h2>{cat}</h2>
       <div class="recipes-grid">
-        {grouped[cat].map((recipe: any) => {
-          const stages = (Array.isArray(recipe.stage) ? recipe.stage : (recipe.stage ? [recipe.stage] : []))
-            .map((s: any) => String(s));
-          return (
-            <div class="recipe-card" data-stages={stages.join(',')}>
-              <a href={`/recipes/${recipe.slug}/`}>{recipe.title}</a>
-              <div class="recipe-meta">
-                {stages.length > 0 && (
-                  <span class="stage-badges">
-                    🩺 {stages.map((s: string) => <span class="stage-badge">{s}</span>)}
-                  </span>
-                )}
-                {recipe.prep_time && <span>• ⏱️ {recipe.prep_time}</span>}
-                {recipe.servings && <span>• 🍽️ {recipe.servings} порц.</span>}
-                {recipe.kcal && <span>• 🔥 {recipe.kcal} ккал</span>}
-              </div>
+        {grouped[cat].map(recipe => (
+          <div class="recipe-card" data-search={recipe._search} data-stages={recipe._stagesStr}>
+            <a href={`/recipes/${recipe.slug}/`}>{recipe.title}</a>
+            <div class="recipe-meta">
+              <!-- Стадии теперь снова тут -->
+              {recipe.stage.length > 0 && (
+                <span class="stages">🩺 {recipe.stage.join(', ')}</span>
+              )}
+              {recipe.prep_time && <span>⏱️ {recipe.prep_time}</span>}
+              {recipe.servings && <span>🍽️ {recipe.servings} порц.</span>}
+              {recipe.kcal && <span>🔥 {recipe.kcal} ккал</span>}
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </div>
   ))}
 
+  <div id="no-results" class="no-results">Ничего не найдено. Попробуйте изменить запрос.</div>
+
   <footer>
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
-    <p><a href="/">На главную</a></p>
   </footer>
+
+  <!-- Скрипт объединяет все фильтры -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('recipe-search');
+      const clearBtn = document.getElementById('search-clear');
+      const searchStats = document.getElementById('search-stats');
+      const foundCount = document.getElementById('found-count');
+      const cards = document.querySelectorAll('.recipe-card');
+      const sections = document.querySelectorAll('.category-section');
+      const noResults = document.getElementById('no-results');
+      const totalCount = cards.length;
+
+      // --- Фильтр по тексту ---
+      function applyTextFilter(query) {
+        const q = query.toLowerCase().trim();
+        cards.forEach(card => {
+          const index = card.getAttribute('data-search') || '';
+          // Временное хранение состояния совпадения
+          card.dataset.matchText = !q || index.includes(q);
+        });
+        searchStats.classList.toggle('visible', q.length > 0);
+        clearBtn.classList.toggle('visible', q.length > 0);
+      }
+
+      searchInput.addEventListener('input', (e) => {
+        applyTextFilter(e.target.value);
+        updateVisibility();
+      });
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        applyTextFilter('');
+        updateVisibility();
+        searchInput.focus();
+      });
+
+      // --- Фильтр по категориям ---
+      let activeCategory = 'all';
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeCategory = btn.dataset.category;
+          updateVisibility();
+        });
+      });
+
+      // --- Фильтр по стадиям ---
+      let activeStage = null;
+      const stageBtns = document.querySelectorAll('.stage-filter-btn');
+      const resetStageBtn = document.getElementById('reset-stage-filter');
+      
+      function setActiveStage(stage) {
+        activeStage = stage;
+        stageBtns.forEach(b => b.classList.toggle('active', b.dataset.stage === stage));
+        resetStageBtn.classList.toggle('active', !stage);
+        updateVisibility();
+      }
+
+      stageBtns.forEach(btn => {
+        btn.addEventListener('click', () => setActiveStage(btn.dataset.stage));
+      });
+      resetStageBtn.addEventListener('click', () => setActiveStage(null));
+
+      // --- Общая функция пересчёта видимости ---
+      function updateVisibility() {
+        let visibleCount = 0;
+        let visibleSections = 0;
+
+        cards.forEach(card => {
+          const matchText = card.dataset.matchText === 'true' || card.dataset.matchText === undefined; // undefined если фильтр не применялся
+          const matchStage = !activeStage || (card.getAttribute('data-stages') || '').includes(activeStage);
+          
+          const isVisible = matchText && matchStage;
+          card.classList.toggle('hidden', !isVisible);
+          if (isVisible) visibleCount++;
+        });
+
+        sections.forEach(section => {
+          const hasVisibleCards = section.querySelectorAll('.recipe-card:not(.hidden)').length > 0;
+          const matchCategory = activeCategory === 'all' || section.dataset.category === activeCategory;
+          
+          section.style.display = (hasVisibleCards && matchCategory) ? 'block' : 'none';
+          if (hasVisibleCards && matchCategory) visibleSections++;
+        });
+
+        foundCount.textContent = visibleCount;
+        noResults.classList.toggle('visible', visibleCount === 0 && (activeStage || searchInput.value.trim()));
+      }
+
+      // Инициализация (чтобы при загрузке всё было верно)
+      applyTextFilter('');
+      updateVisibility();
+    });
+  </script>
 </body>
 </html>
