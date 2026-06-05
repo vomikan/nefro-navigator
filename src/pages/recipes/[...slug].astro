@@ -5,87 +5,114 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 
-//export const prerender = false;
+// 🔑 1. Функция генерации путей
+export async function getStaticPaths() {
+  const recipesDir = path.join(process.cwd(), 'src/content/recipes');
+  const paths = [];
 
-// Получаем slug из URL
-const slug = Astro.params.slug;
-
-if (!slug) {
-  return new Response('Not found', { status: 404 });
+  function walkDir(dir: string, baseSlug = '') {
+    const files = fs.readdirSync(dir);
+    files.forEach(file => {
+      const filePath = path.join(dir, file);
+      const stat = fs.statSync(filePath);
+      if (stat.isDirectory()) {
+        walkDir(filePath, baseSlug ? `${baseSlug}/${file}` : file);
+      } else if (file.endsWith('.md')) {
+        const slug = baseSlug ? `${baseSlug}/${file.replace('.md', '')}` : file.replace('.md', '');
+        const { data } = matter(fs.readFileSync(filePath, 'utf-8'));
+        paths.push({
+          params: { slug },
+          props: { frontmatter: data },
+        });
+      }
+    });
+  }
+  
+  if (fs.existsSync(recipesDir)) {
+    walkDir(recipesDir);
+  }
+  return paths;
 }
 
-// Строим путь к файлу
+const { slug } = Astro.params;
 const filePath = path.join(process.cwd(), 'src/content/recipes', slug + '.md');
 
-// Проверяем существование файла
 if (!fs.existsSync(filePath)) {
-  return new Response('Not found', { status: 404 });
+  return Astro.redirect('/404');
 }
 
-// Читаем файл
 const fileContent = fs.readFileSync(filePath, 'utf-8');
 const { data: frontmatter, content } = matter(fileContent);
-
-// Парсим markdown в HTML
 const html = await marked(content);
 
-const { title, stage, servings, prep_time, notes } = frontmatter;
-// 🔑 Извлекаем нутриенты из вложенной структуры
-const n = frontmatter.nutrients_per_serving || {};
-const { kcal, protein_g, fat_g, carbs_g, potassium_mg, phosphorus_mg, sodium_mg } = n;
+// 🔑 Нормализация нутриентов
+const n = frontmatter.nutrients_per_serving || frontmatter;
+const { title, stage, prep_time, servings, notes } = frontmatter;
+const stages = Array.isArray(stage) ? stage : (stage ? [stage] : []);
 ---
 
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <title>{title} | Petrov-Diet</title>
+  <title>{title} | НефроНавигатор</title>
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 1rem; color: #333; }
-    a { color: #2c5530; }
+    a { color: #2c5530; text-decoration: none; }
+    a:hover { text-decoration: underline; }
     .back { display: inline-block; margin-bottom: 1rem; }
-    .nutrients { background: #f1f8e9; padding: 0.8rem; border-radius: 6px; margin: 1rem 0; }
-    .nutrients table { width: 100%; border-collapse: collapse; }
-    .nutrients td { padding: 0.2rem 0; border-bottom: 1px dashed #ccc; }
-    .notes { background: #fff8e1; border-left: 4px solid #ffc107; padding: 0.8rem; margin: 1rem 0; }
-    footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; }
-    article { margin: 1.5rem 0; }
-    article h2 { font-size: 1.3rem; margin: 1rem 0 0.5rem; }
-    article ul, article ol { margin: 0.5rem 0 0.5rem 1.5rem; }
+    .recipe-header { background: #f0f7f0; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #4caf50; }
+    .recipe-title { margin: 0 0 0.5rem; font-size: 1.5rem; }
+    .recipe-meta { font-size: 0.9rem; color: #666; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .nutrients { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 0.8rem; margin: 1rem 0; }
+    .nutrients table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .nutrients th, .nutrients td { padding: 0.4rem 0.6rem; text-align: left; border-bottom: 1px solid #eee; }
+    .nutrients th { background: #f8f9fa; font-weight: 600; }
+    article { margin: 2rem 0; }
+    article h2 { font-size: 1.3rem; margin: 1.5rem 0 0.8rem; }
+    article h3 { font-size: 1.1rem; margin: 1.2rem 0 0.5rem; }
+    article p { margin: 0.8rem 0; }
+    article ul, article ol { margin: 0.8rem 0; padding-left: 1.5rem; }
     article li { margin: 0.3rem 0; }
+    article blockquote { border-left: 4px solid #4caf50; padding: 0.8rem 1rem; margin: 1.5rem 0; background: #f8f9fa; border-radius: 0 6px 6px 0; }
+    article table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    article th, article td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
+    article th { background: #f1f8e9; }
+    .notes { background: #fff3cd; padding: 1rem; border-radius: 6px; margin: 1.5rem 0; border-left: 4px solid #ffc107; }
+    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; text-align: center; }
   </style>
 </head>
 <body>
-  <a href="/recipes/" class="back">← Назад к рецептам</a>
+  <a href="/nefro-navigator/recipes/" class="back">← Назад к рецептам</a>
   
-  <h1>{title}</h1>
-  
-  {stage && <p><strong>Стадии:</strong> {stage.join(', ')}</p>}
-  {servings && <p><strong>Порций:</strong> {servings}</p>}
-  {prep_time && <p><strong>Время:</strong> {prep_time}</p>}
-  
-  {kcal && (
-    <div class="nutrients">
-      <strong>📊 Нутриенты на порцию</strong>
-      <table>
-        {kcal && <tr><td>Ккал</td><td>{kcal}</td></tr>}
-        {protein_g && <tr><td>Белок</td><td>{protein_g} г</td></tr>}
-        {fat_g && <tr><td>Жиры</td><td>{fat_g} г</td></tr>}
-        {carbs_g && <tr><td>Углеводы</td><td>{carbs_g} г</td></tr>}
-        {potassium_mg && <tr><td>Калий</td><td>{potassium_mg} мг</td></tr>}
-        {phosphorus_mg && <tr><td>Фосфор</td><td>{phosphorus_mg} мг</td></tr>}
-        {sodium_mg && <tr><td>Натрий</td><td>{sodium_mg} мг</td></tr>}
-      </table>
+  <header class="recipe-header">
+    <h1 class="recipe-title">{title}</h1>
+    <div class="recipe-meta">
+      {stages.length > 0 && <span>🩺 Стадии: {stages.join(', ')}</span>}
+      {prep_time && <span>⏱️ {prep_time}</span>}
+      {servings && <span>🍽️ {servings} порц.</span>}
     </div>
-  )}
-  
+  </header>
+
+  <div class="nutrients">
+    <strong>📊 Пищевая ценность (на порцию):</strong>
+    <table>
+      <tr><th>Ккал</th><td>{n.kcal || '—'}</td><th>Белки</th><td>{n.protein_g || '—'} г</td></tr>
+      <tr><th>Жиры</th><td>{n.fat_g || '—'} г</td><th>Углеводы</th><td>{n.carbs_g || '—'} г</td></tr>
+      <tr><th>🔋 Калий</th><td>{n.potassium_mg || '—'} мг</td><th>🦴 Фосфор</th><td>{n.phosphorus_mg || '—'} мг</td></tr>
+      <tr><th>🧂 Натрий</th><td>{n.sodium_mg || '—'} мг</td><td></td><td></td></tr>
+    </table>
+  </div>
+
   <article set:html={html} />
-  
-  {notes && <div class="notes" set:html={await marked(`**💡 Примечание:** ${notes}`)} />}
-  
+
+  {notes && (
+    <div class="notes" set:html={await marked(`**💡 Примечание:** ${notes}`)} />
+  )}
+
   <footer>
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
-    <p><a href="/">На главную</a> | <a href="/recipes/">К рецептам</a></p>
+    <p><a href="/nefro-navigator/">На главную</a> | <a href="/nefro-navigator/recipes/">К рецептам</a></p>
   </footer>
 </body>
 </html>

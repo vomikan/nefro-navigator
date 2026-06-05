@@ -5,13 +5,35 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 
-//export const prerender = false;
+// 🔑 1. Функция генерации путей (обязательна для статики!)
+export async function getStaticPaths() {
+  const articlesDir = path.join(process.cwd(), 'src/content/articles');
+  const paths = [];
 
-const slug = Astro.params.slug;
-if (!slug) return new Response('Not found', { status: 404 });
+  if (fs.existsSync(articlesDir)) {
+    const files = fs.readdirSync(articlesDir);
+    files.forEach(file => {
+      if (file.endsWith('.md')) {
+        const slug = file.replace('.md', '');
+        const { data } = matter(fs.readFileSync(path.join(articlesDir, file), 'utf-8'));
+        paths.push({
+          params: { slug },
+          props: { frontmatter: data },
+        });
+      }
+    });
+  }
+  return paths;
+}
 
+// 🔑 2. Убираем prerender = false (теперь всё пререндерится)
+
+const { slug } = Astro.params;
 const filePath = path.join(process.cwd(), 'src/content/articles', slug + '.md');
-if (!fs.existsSync(filePath)) return new Response('Not found', { status: 404 });
+
+if (!fs.existsSync(filePath)) {
+  return Astro.redirect('/404');
+}
 
 const fileContent = fs.readFileSync(filePath, 'utf-8');
 const { data: frontmatter, content } = matter(fileContent);
@@ -24,9 +46,8 @@ const { title, category, date_updated, author, reading_time } = frontmatter;
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <title>{title} | Petrov-Diet</title>
+  <title>{title} | НефроНавигатор</title>
   <style>
-    /* Базовые стили (локальные) */
     body { font-family: system-ui, sans-serif; line-height: 1.7; max-width: 800px; margin: 0 auto; padding: 1rem; color: #333; }
     a { color: #2c5530; text-decoration: none; }
     a:hover { text-decoration: underline; }
@@ -42,45 +63,20 @@ const { title, category, date_updated, author, reading_time } = frontmatter;
     article li { margin: 0.3rem 0; }
     article blockquote { border-left: 4px solid #4caf50; padding: 0.8rem 1rem; margin: 1.5rem 0; background: #f8f9fa; border-radius: 0 6px 6px 0; color: #444; }
     article strong { color: #2c5530; }
+    
+    /* 📊 Глобальные стили для таблиц из Markdown */
+    :global(article table) { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; }
+    :global(article table th), :global(article table td) { border: 1px solid rgba(0, 0, 0, 0.15); padding: 0.75rem 1rem; text-align: left; vertical-align: top; }
+    :global(article table th) { background-color: rgba(0, 102, 204, 0.08); font-weight: 600; border-bottom: 2px solid rgba(0, 102, 204, 0.3); }
+    :global(article table tr:nth-child(even)) { background-color: rgba(0, 0, 0, 0.02); }
+    :global(article table tr:hover) { background-color: rgba(0, 102, 204, 0.05); }
+    @media (max-width: 768px) { :global(article table) { font-size: 0.85rem; } :global(article table th), :global(article table td) { padding: 0.5rem 0.75rem; } }
+    
     footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; text-align: center; }
-  
-    /* 🌍 Глобальные стили для динамического контента (таблицы из Markdown) */
-    :global(article table) {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.5rem 0;
-      font-size: 0.95rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    :global(article table th),
-    :global(article table td) {
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      padding: 0.75rem 1rem;
-      text-align: left;
-      vertical-align: top;
-    }
-    :global(article table th) {
-      background-color: rgba(0, 102, 204, 0.08);
-      font-weight: 600;
-      border-bottom: 2px solid rgba(0, 102, 204, 0.3);
-    }
-    :global(article table tr:nth-child(even)) {
-      background-color: rgba(0, 0, 0, 0.02);
-    }
-    :global(article table tr:hover) {
-      background-color: rgba(0, 102, 204, 0.05);
-    }
-    @media (max-width: 768px) {
-      :global(article table) { font-size: 0.85rem; }
-      :global(article table th),
-      :global(article table td) { padding: 0.5rem 0.75rem; }
-    }
   </style>
 </head>
 <body>
-  <a href="/articles/" class="back">← Назад к статьям</a>
+  <a href="/nefro-navigator/articles/" class="back">← Назад к статьям</a>
   <header class="article-header">
     <h1>{title}</h1>
     <div class="article-meta">
@@ -93,7 +89,7 @@ const { title, category, date_updated, author, reading_time } = frontmatter;
   <article set:html={html} />
   <footer>
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
-    <p><a href="/">На главную</a> | <a href="/articles/">К статьям</a></p>
+    <p><a href="/nefro-navigator/">На главную</a> | <a href="/nefro-navigator/articles/">К статьям</a></p>
   </footer>
 </body>
 </html>

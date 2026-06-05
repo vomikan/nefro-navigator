@@ -1,5 +1,5 @@
 {
-  "name": "petrov-diet-system",
+  "name": "nefro-navigator",
   "version": "1.0.0",
   "description": "Адаптированные рецепты и клинически обоснованные рекомендации по питанию при хронической болезни почек.",
   "type": "module",
@@ -15,7 +15,7 @@
     "рецепты",
     "мбд"
   ],
-  "author": "Игорь Петров и сообщество",
+  "author": "nefro-navigator",
   "license": "CC-BY-NC-SA-4.0",
   "dependencies": {
     "@astrojs/mdx": "^6.0.1",
