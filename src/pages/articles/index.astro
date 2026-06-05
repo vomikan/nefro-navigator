@@ -14,8 +14,9 @@ if (fs.existsSync(articlesDir)) {
       const { data, content } = matter(fs.readFileSync(path.join(articlesDir, file), 'utf-8'));
       const safeSearch = `${data.title || ''} ${data.category || ''} ${content}`
         .toLowerCase()
-        .replace(/[^a-zа-яё0-9\s]/gi, ' ')
-        .trim();
+        .trim()
+        .replace(/[^a-zа-яё0-9\s]/gi, ' ')  // 🔑 Заменяем дефисы и другие символы на пробел
+        .replace(/\s+/g, ' ');               // Убираем множественные пробелы;
 
       allArticles.push({
         slug: file.replace('.md', ''),
@@ -94,29 +95,33 @@ allArticles.sort((a, b) => {
   <script is:inline>
     document.addEventListener('DOMContentLoaded', () => {
       const input = document.getElementById('article-search');
-      const clearBtn = document.getElementById('search-clear');
       const items = document.querySelectorAll('.article-card');
       const noResults = document.getElementById('no-results');
-
+      
+      // 🔑 Функция нормализации (как в индексе!)
+      function normalize(str) {
+        return (str || '')
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-zа-яё0-9\s]/gi, ' ')
+          .replace(/\s+/g, ' ');
+      }
+  
       function runSearch() {
-        const query = input.value.toLowerCase().trim();
+        const query = normalize(input.value);  // 🔑 Нормализуем запрос!
         let visibleCount = 0;
+        
         items.forEach(item => {
-          const index = item.getAttribute('data-search') || '';
+          const index = normalize(item.getAttribute('data-search') || '');
           const match = !query || index.includes(query);
           item.classList.toggle('hidden', !match);
           if (match) visibleCount++;
         });
+        
         noResults.classList.toggle('visible', visibleCount === 0 && query.length > 0);
-        clearBtn.classList.toggle('visible', query.length > 0);
       }
-
+  
       input.addEventListener('input', runSearch);
-      clearBtn.addEventListener('click', () => {
-        input.value = '';
-        runSearch();
-        input.focus();
-      });
     });
   </script>
 </body>
