@@ -78,7 +78,7 @@ const { title, category, date_updated, author, reading_time } = frontmatter;
 </head>
 <body>
   <!-- 🔑 Статическая ссылка: Astro сам добавит base -->
-  <a href="/nefro-navigator/articles/" class="back">← Назад к статьям</a>
+  <a href="${BASE}/nefro-navigator/articles/" class="back">← Назад к статьям</a>
   
   <header class="article-header">
     <h1>{title}</h1>
@@ -96,8 +96,8 @@ const { title, category, date_updated, author, reading_time } = frontmatter;
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
     <p>
       <!-- 🔑 Статические ссылки: Astro сам добавит base -->
-      <a href="/">На главную</a> | 
-      <a href="/nefro-navigator/articles/">К статьям</a>
+      <a href="${BASE}/">На главную</a> | 
+      <a href="${BASE}/articles/">К статьям</a>
     </p>
   </footer>
 </body>

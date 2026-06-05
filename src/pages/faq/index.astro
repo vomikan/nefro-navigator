@@ -57,7 +57,7 @@ if (fs.existsSync(faqDir)) {
 </head>
 <body>
   <!-- 🔑 Статические ссылки: Astro сам добавит base -->
-  <a href="/" class="back">← На главную</a>
+  <a href="${BASE}/" class="back">← На главную</a>
   <h1>❓ Часто задаваемые вопросы</h1>
   
   <div class="search-box">
@@ -82,8 +82,8 @@ if (fs.existsSync(faqDir)) {
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
     <p>
       <!-- Статические ссылки в футере: Astro сам добавит base -->
-      <a href="/">На главную</a> | 
-      <a href="/faq/">К ЧаВо</a>
+      <a href={`${BASE}/`}>На главную</a> | 
+      <a href="${BASE}/faq/">К ЧаВо</a>
     </p>
   </footer>
 
