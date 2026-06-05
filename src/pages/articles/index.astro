@@ -27,6 +27,13 @@ if (fs.existsSync(articlesDir)) {
     }
   });
 }
+// СОРТИРОВКА ПО ДАТЕ
+allArticles.sort((a, b) => {
+  if (!a.date_updated && !b.date_updated) return 0;
+  if (!a.date_updated) return 1;
+  if (!b.date_updated) return -1;
+  return new Date(b.date_updated).getTime() - new Date(a.date_updated).getTime();
+});
 ---
 
 <html lang="ru">
