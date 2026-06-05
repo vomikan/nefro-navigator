@@ -68,7 +68,7 @@ if (fs.existsSync(articlesDir)) {
   <ul class="article-list" id="article-list">
     {allArticles.map(article => (
       <li class="article-card" data-search={article._search}>
-        <a href={`/articles/${article.slug}/`}>{article.title}</a>
+        <a href={Astro.resolve(`/articles/${article.slug}/`)}>{article.title}</a>
         <div class="article-meta">
           {article.category && <span>🏷️ {article.category}</span>}
           {article.date_updated && <span>📅 {article.date_updated}</span>}

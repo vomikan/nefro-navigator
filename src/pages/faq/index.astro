@@ -11,11 +11,11 @@ if (fs.existsSync(faqDir)) {
   fs.readdirSync(faqDir).forEach(file => {
     if (file.endsWith('.md')) {
       const { data, content } = matter(fs.readFileSync(path.join(faqDir, file), 'utf-8'));
-      
-      // 🔑 Создаём безопасный поисковый индекс (вопрос + категория + полный текст ответа)
-      const rawSearch = `${data.question || ''} ${data.category || ''} ${content}`.toLowerCase();
-      const safeSearch = rawSearch.replace(/[^a-zа-яё0-9\s]/gi, ' ').trim();
-      
+      const safeSearch = `${data.question || ''} ${data.category || ''} ${content}`
+        .toLowerCase()
+        .replace(/[^a-zа-яё0-9\s]/gi, ' ')
+        .trim();
+
       allFaqs.push({
         slug: file.replace('.md', ''),
         question: data.question || 'Без вопроса',
@@ -31,21 +31,19 @@ if (fs.existsSync(faqDir)) {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <title>ЧаВо | Petrov-Diet</title>
+  <title>ЧаВо | НефроНавигатор</title>
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 1rem; color: #333; }
     a { color: #2c5530; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .back { display: inline-block; margin-bottom: 1rem; }
     h1 { margin-bottom: 1.5rem; }
-    
     .search-box { margin: 1rem 0 1.5rem; position: relative; }
     #faq-search { width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; }
     #faq-search:focus { outline: none; border-color: #4caf50; }
     .search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: #666; pointer-events: none; }
     #search-clear { position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; cursor: pointer; font-size: 1.2rem; display: none; }
     #search-clear.visible { display: block; }
-    
     .faq-list { list-style: none; padding: 0; }
     .faq-item { background: #f9f9f9; padding: 1rem; margin: 0.5rem 0; border-radius: 6px; border-left: 4px solid #4caf50; transition: opacity 0.2s; }
     .faq-item.hidden { display: none; }
@@ -53,12 +51,12 @@ if (fs.existsSync(faqDir)) {
     .faq-meta { font-size: 0.85rem; color: #666; }
     .no-results { text-align: center; color: #666; padding: 2rem; font-style: italic; display: none; }
     .no-results.visible { display: block; }
-    
     footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; text-align: center; }
   </style>
 </head>
 <body>
-  <a href="/nefro-navigator/" class="back">← На главную</a>
+  <!-- 🔑 Astro.resolve() добавит /nefro-navigator/ автоматически -->
+  <a href={Astro.resolve('/')} class="back">← На главную</a>
   <h1>❓ Часто задаваемые вопросы</h1>
   
   <div class="search-box">
@@ -67,11 +65,11 @@ if (fs.existsSync(faqDir)) {
     <button id="search-clear" title="Очистить">×</button>
   </div>
   
-  <!-- ✅ Список рендерится на сервере, как было до поиска -->
   <ul class="faq-list" id="faq-list">
     {allFaqs.map(faq => (
       <li class="faq-item" data-search={faq._search}>
-        <a href={`/faq/${faq.slug}/`}>{faq.question}</a>
+        <!-- 🔑 Исправленная ссылка с Astro.resolve() -->
+        <a href={Astro.resolve(`/faq/${faq.slug}/`)}>{faq.question}</a>
         {faq.category && <span class="faq-meta">🏷️ {faq.category}</span>}
       </li>
     ))}
@@ -81,9 +79,12 @@ if (fs.existsSync(faqDir)) {
   
   <footer>
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
+    <p>
+      <a href={Astro.resolve('/')}>На главную</a> | 
+      <a href={Astro.resolve('/faq/')}>К ЧаВо</a>
+    </p>
   </footer>
 
-  <!-- 🔍 Клиентский фильтр (не ломает SSR-вёрстку) -->
   <script is:inline>
     document.addEventListener('DOMContentLoaded', () => {
       const input = document.getElementById('faq-search');
@@ -94,15 +95,12 @@ if (fs.existsSync(faqDir)) {
       function runSearch() {
         const query = input.value.toLowerCase().trim();
         let visibleCount = 0;
-
         items.forEach(item => {
           const index = item.getAttribute('data-search') || '';
           const match = !query || index.includes(query);
-          
           item.classList.toggle('hidden', !match);
           if (match) visibleCount++;
         });
-
         noResults.classList.toggle('visible', visibleCount === 0 && query.length > 0);
         clearBtn.classList.toggle('visible', query.length > 0);
       }

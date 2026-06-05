@@ -135,7 +135,7 @@ const categories = Object.keys(grouped).sort((a, b) => {
   </style>
 </head>
 <body>
-  <a href="/nefro-navigator/" class="back">← На главную</a>
+  <a href={Astro.resolve('/')} class="back">← На главную</a>
   <h1>🍳 Рецепты</h1>
 
   <!-- 1. Поиск -->
@@ -170,7 +170,7 @@ const categories = Object.keys(grouped).sort((a, b) => {
       <div class="recipes-grid">
         {grouped[cat].map(recipe => (
           <div class="recipe-card" data-search={recipe._search} data-stages={recipe._stagesStr}>
-            <a href={`/recipes/${recipe.slug}/`}>{recipe.title}</a>
+            <a href={Astro.resolve(`/recipes/${recipe.slug}/`)}>{recipe.title}</a>
             <div class="recipe-meta">
               <!-- Стадии теперь снова тут -->
               {recipe.stage.length > 0 && (
