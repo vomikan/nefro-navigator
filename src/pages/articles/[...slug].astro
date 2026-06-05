@@ -5,7 +5,10 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 
-// 🔑 1. Функция генерации путей (обязательна для статики!)
+// 🔑 1. Константа для динамических ссылок
+const BASE = '/nefro-navigator';
+
+// 🔑 2. Функция генерации путей (обязательна для статики!)
 export async function getStaticPaths() {
   const articlesDir = path.join(process.cwd(), 'src/content/articles');
   const paths = [];
@@ -25,8 +28,6 @@ export async function getStaticPaths() {
   }
   return paths;
 }
-
-// 🔑 2. Убираем prerender = false (теперь всё пререндерится)
 
 const { slug } = Astro.params;
 const filePath = path.join(process.cwd(), 'src/content/articles', slug + '.md');
@@ -76,7 +77,9 @@ const { title, category, date_updated, author, reading_time } = frontmatter;
   </style>
 </head>
 <body>
-  <a href={Astro.resolve('/articles/')} class="back">← Назад к статьям</a>
+  <!-- 🔑 Статическая ссылка: Astro сам добавит base -->
+  <a href="/nefro-navigator/articles/" class="back">← Назад к статьям</a>
+  
   <header class="article-header">
     <h1>{title}</h1>
     <div class="article-meta">
@@ -86,10 +89,16 @@ const { title, category, date_updated, author, reading_time } = frontmatter;
       {reading_time && <span>⏱️ {reading_time} мин.</span>}
     </div>
   </header>
+  
   <article set:html={html} />
+  
   <footer>
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
-    <p><a href={Astro.resolve('/')}>На главную</a> | <a href={Astro.resolve('/articles/')}>К статьям</a></p>
+    <p>
+      <!-- 🔑 Статические ссылки: Astro сам добавит base -->
+      <a href="/">На главную</a> | 
+      <a href="/nefro-navigator/articles/">К статьям</a>
+    </p>
   </footer>
 </body>
 </html>

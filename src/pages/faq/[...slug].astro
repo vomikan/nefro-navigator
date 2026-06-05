@@ -60,7 +60,7 @@ const { question, category, date_updated } = frontmatter;
   </style>
 </head>
 <body>
-  <a href={Astro.resolve('/faq/')} class="back">← Назад к ЧаВо</a>
+  <a href='/faq/' class="back">← Назад к ЧаВо</a>
   
   <div class="faq-header">
     <h1>{question}</h1>
@@ -74,7 +74,7 @@ const { question, category, date_updated } = frontmatter;
   
   <footer>
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
-    <p><a href={Astro.resolve('/')}>На главную</a> | <a href={Astro.resolve('/faq/')}>К ЧаВо</a></p>
+    <p><a href='/'>На главную</a> | <a href='/faq/'>К ЧаВо</a></p>
   </footer>
 </body>
 </html>
