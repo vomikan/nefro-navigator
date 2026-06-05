@@ -5,7 +5,10 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 
-// 🔑 1. Функция генерации путей (обязательна для статики!)
+// 🔑 1. Константа для ссылок (обязательно в блоке ---)
+const BASE = '/nefro-navigator';
+
+// 🔑 2. Функция генерации путей (обязательна для статики!)
 export async function getStaticPaths() {
   const faqDir = path.join(process.cwd(), 'src/content/faq');
   const paths = [];
@@ -60,7 +63,8 @@ const { question, category, date_updated } = frontmatter;
   </style>
 </head>
 <body>
-  <a href='${BASE}/faq/' class="back">← Назад к ЧаВо</a>
+  <!-- 🔑 Правильный синтаксис: обратные кавычки ` ` внутри { } -->
+  <a href={`${BASE}/faq/`} class="back">← Назад к ЧаВо</a>
   
   <div class="faq-header">
     <h1>{question}</h1>
@@ -74,7 +78,10 @@ const { question, category, date_updated } = frontmatter;
   
   <footer>
     <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
-    <p><a href='${BASE}/'>На главную</a> | <a href='${BASE}/faq/'>К ЧаВо</a></p>
+    <p>
+      <a href={`${BASE}/`}>На главную</a> | 
+      <a href={`${BASE}/faq/`}>К ЧаВо</a>
+    </p>
   </footer>
 </body>
 </html>
