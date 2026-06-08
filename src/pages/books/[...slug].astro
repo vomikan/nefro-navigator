@@ -1,0 +1,237 @@
+﻿---
+// src/pages/books/[...slug].astro
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+import { marked } from 'marked';
+
+// 🔑 1. Константа для ссылок
+const BASE = '/nefro-navigator';
+
+// 🔑 2. Генерация путей для статической сборки
+export async function getStaticPaths() {
+  const booksDir = path.join(process.cwd(), 'src/content/books');
+  const paths = [];
+
+  if (fs.existsSync(booksDir)) {
+    const files = fs.readdirSync(booksDir);
+    files.forEach(file => {
+      if (file.endsWith('.md')) {
+        const slug = file.replace('.md', '');
+        const { data } = matter(fs.readFileSync(path.join(booksDir, file), 'utf-8'));
+        paths.push({
+          params: { slug },
+          props: { frontmatter: data },
+        });
+      }
+    });
+  }
+  return paths;
+}
+
+const { slug } = Astro.params;
+const filePath = path.join(process.cwd(), 'src/content/books', slug + '.md');
+
+if (!fs.existsSync(filePath)) {
+  return Astro.redirect('/404');
+}
+
+const fileContent = fs.readFileSync(filePath, 'utf-8');
+const { data: frontmatter, content } = matter(fileContent);
+
+// Рендерим Markdown (описание + оглавление)
+const html = await marked(content);
+
+// 🔑 Исправляем внутренние ссылки из Markdown (как в статьях)
+const fixedHtml = html.replace(
+  /href="\/(articles|faq|recipes|books)\/([^"#?]+)"/g,
+  `href="/nefro-navigator/$1/$2"`
+);
+
+const {
+  title,
+  authors,
+  publisher,
+  year,
+  isbn,
+  cover_image,
+  external_link,
+  description,
+  table_of_contents,
+  tags = []
+} = frontmatter;
+---
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{title} | НефроНавигатор</title>
+  <link rel="icon" type="image/svg+xml" href="/nefro-navigator/favicon.svg" />
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.7; max-width: 900px; margin: 0 auto; padding: 1rem; color: #333; }
+    a { color: #2c5530; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { display: inline-block; margin-bottom: 1.5rem; font-weight: 500; }
+    
+    .book-header {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .book-header { grid-template-columns: 1fr; text-align: center; }
+    }
+    
+    .book-cover {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      background: #f5f5f5;
+    }
+    
+    .book-meta h1 {
+      margin: 0 0 0.8rem;
+      font-size: 1.5rem;
+      line-height: 1.3;
+      color: #2c5530;
+    }
+    
+    .meta-row {
+      font-size: 0.95rem;
+      color: #555;
+      margin: 0.3rem 0;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 768px) {
+      .meta-row { justify-content: center; }
+    }
+    
+    .book-description {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      border-left: 4px solid #4caf50;
+    }
+    
+    .toc {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1.5rem 0;
+    }
+    .toc h3 { margin: 0 0 0.8rem; color: #2c5530; }
+    .toc ol { margin: 0; padding-left: 1.5rem; }
+    .toc li { margin: 0.3rem 0; font-size: 0.95rem; }
+    
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .tag {
+      background: #e8f5e9;
+      color: #2c5530;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .external-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      background: #4caf50;
+      color: white;
+      border-radius: 8px;
+      font-weight: 600;
+      margin: 1rem 0;
+      transition: background 0.2s;
+    }
+    .external-link:hover {
+      background: #388e3c;
+      text-decoration: none;
+      color: white;
+    }
+    
+    .book-content { margin: 2rem 0; }
+    .book-content h2 { font-size: 1.3rem; margin: 1.5rem 0 1rem; color: #2c5530; border-bottom: 2px solid #e8f5e9; padding-bottom: 0.3rem; }
+    .book-content p { margin: 0.8rem 0; }
+    .book-content ul, .book-content ol { margin: 0.8rem 0; padding-left: 1.5rem; }
+    .book-content li { margin: 0.3rem 0; }
+    
+    footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ddd;
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <a href={`${BASE}/books/`} class="back">← Назад к книгам</a>
+  
+  <header class="book-header">
+    {cover_image && (
+      <img src={cover_image} alt={title} class="book-cover" />
+    )}
+    <div class="book-meta">
+      <h1>{title}</h1>
+      {authors && <div class="meta-row">✍️ {authors}</div>}
+      {publisher && <div class="meta-row">🏢 {publisher}</div>}
+      {year && <div class="meta-row">📅 {year} год</div>}
+      {isbn && <div class="meta-row">🔢 ISBN: {isbn}</div>}
+      
+      {tags.length > 0 && (
+        <div class="tags">
+          {tags.map(tag => <span class="tag">#{tag}</span>)}
+        </div>
+      )}
+      
+      {external_link && (
+        <a href={external_link} class="external-link" target="_blank" rel="noopener">
+          📖 Проверить доступность ↗
+        </a>
+      )}
+    </div>
+  </header>
+  
+  {description && (
+    <div class="book-description">
+      <strong>📋 О книге:</strong>
+      <p style="margin: 0.5rem 0 0;">{description}</p>
+    </div>
+  )}
+  
+  {table_of_contents && (
+    <div class="toc">
+      <h3>📑 Оглавление</h3>
+      <div set:html={await marked(`\`\`\`\n${table_of_contents}\n\`\`\``)} />
+    </div>
+  )}
+  
+  {content && (
+    <article class="book-content" set:html={fixedHtml} />
+  )}
+  
+  <footer>
+    <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
+    <p>
+      <a href={`${BASE}/`}>На главную</a> | 
+      <a href={`${BASE}/books/`}>К книгам</a>
+    </p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,98 @@
+﻿---
+// src/pages/resources/[...slug].astro
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+const BASE = '/nefro-navigator';
+
+// 🔑 getStaticPaths выполняется отдельно — все переменные должны быть внутри
+export async function getStaticPaths() {
+  const resourcesDir = path.join(process.cwd(), 'src/content/resources');
+  const paths = [];
+  
+  if (fs.existsSync(resourcesDir)) {
+    fs.readdirSync(resourcesDir).forEach(file => {
+      if (file.endsWith('.md')) {
+        paths.push({ 
+          params: { slug: file.replace('.md', '') } 
+        });
+      }
+    });
+  }
+  return paths;
+}
+
+// 🔑 Основной код страницы — здесь переменные видны
+const resourcesDir = path.join(process.cwd(), 'src/content/resources');
+const { slug } = Astro.params;
+const filePath = path.join(resourcesDir, slug + '.md');
+
+if (!fs.existsSync(filePath)) {
+  return Astro.redirect('/404');
+}
+
+const { data } = matter(fs.readFileSync(filePath, 'utf-8'));
+const { title, description, icon, resources = [] } = data;
+---
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{title} | НефроНавигатор</title>
+  <link rel="icon" type="image/svg+xml" href="/nefro-navigator/favicon.svg" />
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 1rem; color: #333; }
+    a { color: #2c5530; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { display: inline-block; margin-bottom: 1.5rem; }
+    
+    .category-header { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #4caf50; }
+    .category-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .category-title { margin: 0 0 0.5rem; font-size: 1.5rem; color: #2c5530; }
+    .category-desc { margin: 0; color: #666; }
+    
+    .resource-list { list-style: none; padding: 0; }
+    .resource-item { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; transition: box-shadow 0.2s; }
+    .resource-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    
+    .resource-title { font-size: 1.1rem; margin: 0 0 0.3rem; font-weight: 600; }
+    .resource-link { color: #1976d2; word-break: break-all; }
+    .resource-desc { font-size: 0.95rem; color: #555; margin: 0.5rem 0; }
+    
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .tag { background: #e8f5e9; color: #2c5530; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; }
+    
+    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; text-align: center; }
+  </style>
+</head>
+<body>
+  <a href={`${BASE}/resources/`} class="back">← Назад к ресурсам</a>
+  
+  <header class="category-header">
+    <div class="category-icon">{icon || '🔗'}</div>
+    <h1 class="category-title">{title}</h1>
+    <p class="category-desc">{description}</p>
+  </header>
+  
+  <ul class="resource-list">
+    {resources.map(res => (
+      <li class="resource-item">
+        <h2 class="resource-title">
+          <a href={res.url} target="_blank" rel="noopener" class="resource-link">{res.title} ↗</a>
+        </h2>
+        {res.description && <p class="resource-desc">{res.description}</p>}
+        {res.tags?.length && (
+          <div class="tags">{res.tags.map(tag => <span class="tag">#{tag}</span>)}</div>
+        )}
+      </li>
+    ))}
+  </ul>
+  
+  <footer>
+    <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
+    <p><a href={`${BASE}/`}>На главную</a> | <a href={`${BASE}/resources/`}>К ресурсам</a></p>
+  </footer>
+</body>
+</html>

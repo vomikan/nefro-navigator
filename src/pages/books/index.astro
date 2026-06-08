@@ -1,0 +1,267 @@
+﻿---
+// src/pages/books/index.astro
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+const BASE = '/nefro-navigator';
+const booksDir = path.join(process.cwd(), 'src/content/books');
+const allBooks = [];
+
+if (fs.existsSync(booksDir)) {
+  fs.readdirSync(booksDir).forEach(file => {
+    if (file.endsWith('.md')) {
+      const { data } = matter(fs.readFileSync(path.join(booksDir, file), 'utf-8'));
+      allBooks.push({
+        slug: file.replace('.md', ''),
+        ...data,
+      });
+    }
+  });
+}
+
+// Сортировка: новые сверху
+allBooks.sort((a, b) => (b.year || 0) - (a.year || 0));
+---
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Книги | НефроНавигатор</title>
+  <link rel="icon" type="image/svg+xml" href="/nefro-navigator/favicon.svg" />
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto; padding: 1rem; color: #333; }
+    a { color: #2c5530; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { display: inline-block; margin-bottom: 1rem; }
+    h1 { margin-bottom: 1.5rem; }
+    
+    .books-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    
+    .book-card {
+      display: grid;
+      grid-template-columns: 1fr 180px; /* Текст слева, обложка справа */
+      gap: 1.5rem;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 1rem;
+      transition: box-shadow 0.2s;
+    }
+    .book-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    @media (max-width: 768px) {
+      .book-card {
+        grid-template-columns: 1fr; /* На мобильных — вертикально */
+        text-align: center;
+      }
+    }
+    
+    /* Обложка справа */
+    .book-cover {
+      width: 100%;
+      height: 240px;
+      object-fit: contain; /* Не обрезает, вписывает целиком */
+      background: #f5f5f5;
+      border-radius: 4px;
+      justify-self: end; /* Прижимаем вправо */
+    }
+    @media (max-width: 768px) {
+      .book-cover {
+        height: 200px;
+        justify-self: center;
+      }
+    }
+    
+    /* Информация о книге */
+    .book-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .book-title {
+      font-size: 1.2rem;
+      margin: 0 0 0.5rem;
+      font-weight: 600;
+      color: #2c5530;
+    }
+    .book-meta {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 0.8rem;
+    }
+    .book-description {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 4; /* Показываем 4 строки */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .book-link {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: #4caf50;
+      color: white;
+      border-radius: 4px;
+      font-weight: 500;
+      align-self: flex-start;
+      transition: background 0.2s;
+    }
+    .book-link:hover {
+      background: #388e3c;
+      text-decoration: none;
+    }
+    @media (max-width: 768px) {
+      .book-link { align-self: center; }
+    }
+    
+    /* 🔍 Поиск */
+    .search-box {
+      margin: 1rem 0 1.5rem;
+      position: relative;
+    }
+    #book-search {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 2.5rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    #book-search:focus {
+      outline: none;
+      border-color: #4caf50;
+    }
+    .search-icon {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+      pointer-events: none;
+    }
+    #search-clear {
+      position: absolute;
+      right: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: none;
+    }
+    #search-clear.visible { display: block; }
+    .no-results {
+      text-align: center;
+      color: #666;
+      padding: 2rem;
+      font-style: italic;
+      display: none;
+    }
+    .no-results.visible { display: block; }
+    
+    footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ddd;
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <a href={`${BASE}/`} class="back">← На главную</a>
+  <h1>📚 Книги и руководства</h1>
+  <p>Подборка литературы по питанию и образу жизни при хронической болезни почек.</p>
+  
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="book-search" placeholder="Поиск по названию, автору, описанию..." autocomplete="off" />
+    <button id="search-clear" title="Очистить">×</button>
+  </div>
+  
+  <div id="no-results" class="no-results">Ничего не найдено. Попробуйте изменить запрос.</div>
+
+  <div class="books-grid" id="books-list">
+    {allBooks.map(book => (
+      <div class="book-card" data-search={`${book.title} ${book.authors} ${book.description} ${book.tags?.join(' ')}`.toLowerCase()}>
+        
+        <!-- 🔑 Информация о книге (слева, шире) -->
+        <div class="book-info">
+          <h2 class="book-title">{book.title}</h2>
+          <div class="book-meta">
+            {book.authors && <div>✍️ {book.authors}</div>}
+            {book.year && <div>📅 {book.year}</div>}
+            {book.publisher && <div>🏢 {book.publisher}</div>}
+          </div>
+          <p class="book-description">{book.description}</p>
+          <a href={`${BASE}/books/${book.slug}/`} class="book-link">Подробнее</a>
+        </div>
+        
+        <!-- 🔑 Обложка (справа, уже) -->
+        {book.cover_image && (
+          <img src={book.cover_image} alt={book.title} class="book-cover" />
+        )}
+      </div>
+    ))}
+  </div>
+
+  <div id="no-results" class="no-results">Ничего не найдено. Попробуйте изменить запрос.</div>
+  
+  <footer>
+    <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
+  </footer>
+  
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('book-search');
+      const clearBtn = document.getElementById('search-clear');
+      const cards = document.querySelectorAll('.book-card');
+      const noResults = document.getElementById('no-results');
+      
+      function normalize(str) {
+        return (str || '')
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-zа-яё0-9\s]/gi, ' ')
+          .replace(/\s+/g, ' ');
+      }
+      
+      function runSearch() {
+        const query = normalize(input.value);
+        let visibleCount = 0;
+        
+        cards.forEach(card => {
+          const index = normalize(card.getAttribute('data-search') || '');
+          const match = !query || index.includes(query);
+          card.classList.toggle('hidden', !match);
+          if (match) visibleCount++;
+        });
+        
+        noResults.classList.toggle('visible', visibleCount === 0 && query.length > 0);
+        clearBtn.classList.toggle('visible', query.length > 0);
+      }
+      
+      input.addEventListener('input', runSearch);
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        runSearch();
+        input.focus();
+      });
+    });
+  </script>
+  
+</body>
+</html>

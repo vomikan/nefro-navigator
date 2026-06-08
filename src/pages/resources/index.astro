@@ -1,0 +1,134 @@
+﻿---
+// src/pages/resources/index.astro
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+const BASE = '/nefro-navigator';
+const resourcesDir = path.join(process.cwd(), 'src/content/resources');
+const allCategories = [];
+
+if (fs.existsSync(resourcesDir)) {
+  fs.readdirSync(resourcesDir).forEach(file => {
+    if (file.endsWith('.md')) {
+      const { data } = matter(fs.readFileSync(path.join(resourcesDir, file), 'utf-8'));
+      allCategories.push({
+        slug: file.replace('.md', ''),
+        ...data,
+      });
+    }
+  });
+}
+
+// Сортировка по полю order, затем по заголовку
+allCategories.sort((a, b) => {
+  if (a.order && b.order) return a.order - b.order;
+  if (a.order) return -1;
+  if (b.order) return 1;
+  return (a.title || '').localeCompare(b.title || '', 'ru');
+});
+---
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Ресурсы | НефроНавигатор</title>
+  <link rel="icon" type="image/svg+xml" href="/nefro-navigator/favicon.svg" />
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 1rem; color: #333; }
+    a { color: #2c5530; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { display: inline-block; margin-bottom: 1rem; }
+    h1 { margin-bottom: 1.5rem; }
+    
+    /* 🔍 Поиск */
+    .search-box { margin: 1rem 0 1.5rem; position: relative; }
+    #resource-search { width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; }
+    #resource-search:focus { outline: none; border-color: #4caf50; }
+    .search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: #666; pointer-events: none; }
+    #search-clear { position: absolute; right: 0.9rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; cursor: pointer; font-size: 1.2rem; display: none; }
+    #search-clear.visible { display: block; }
+    
+    /* Сетка категорий */
+    .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    
+    .category-card {
+      background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1.2rem;
+      transition: box-shadow 0.2s, transform 0.2s; cursor: pointer;
+    }
+    .category-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .category-card.hidden { display: none; }
+    
+    .category-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .category-title { font-size: 1.1rem; margin: 0 0 0.5rem; font-weight: 600; color: #2c5530; }
+    .category-desc { font-size: 0.9rem; color: #666; margin-bottom: 0.8rem; }
+    .category-count { font-size: 0.8rem; color: #4caf50; font-weight: 500; }
+    
+    .no-results { text-align: center; color: #666; padding: 2rem; font-style: italic; display: none; }
+    .no-results.visible { display: block; }
+    
+    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; text-align: center; }
+  </style>
+</head>
+<body>
+  <a href={`${BASE}/`} class="back">← На главную</a>
+  <h1>🧭 Ресурсы и ссылки</h1>
+  <p>Проверенные источники информации, инструменты и сообщества для пациентов с ХБП.</p>
+  
+  <!-- 🔍 Поиск -->
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="resource-search" placeholder="Поиск по ресурсам..." autocomplete="off" />
+    <button id="search-clear" title="Очистить">×</button>
+  </div>
+  
+  <div class="categories-grid" id="categories-list">
+    {allCategories.map(cat => (
+      <a href={`${BASE}/resources/${cat.slug}/`} class="category-card" 
+         data-search={`${cat.title} ${cat.description} ${cat.resources?.map(r => r.title + ' ' + r.description + ' ' + r.tags?.join(' ')).join(' ')}`.toLowerCase()}>
+        <div class="category-icon">{cat.icon || '🔗'}</div>
+        <h2 class="category-title">{cat.title}</h2>
+        <p class="category-desc">{cat.description}</p>
+        {cat.resources?.length && <span class="category-count">{cat.resources.length} ссылок →</span>}
+      </a>
+    ))}
+  </div>
+  
+  <div id="no-results" class="no-results">Ничего не найдено. Попробуйте изменить запрос.</div>
+  
+  <footer>
+    <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
+  </footer>
+
+  <!-- 🔍 Скрипт поиска -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('resource-search');
+      const clearBtn = document.getElementById('search-clear');
+      const cards = document.querySelectorAll('.category-card');
+      const noResults = document.getElementById('no-results');
+      
+      function normalize(str) {
+        return (str || '').toLowerCase().trim().replace(/[^a-zа-яё0-9\s]/gi, ' ').replace(/\s+/g, ' ');
+      }
+      
+      function runSearch() {
+        const query = normalize(input.value);
+        let visibleCount = 0;
+        cards.forEach(card => {
+          const index = normalize(card.getAttribute('data-search') || '');
+          const match = !query || index.includes(query);
+          card.classList.toggle('hidden', !match);
+          if (match) visibleCount++;
+        });
+        noResults.classList.toggle('visible', visibleCount === 0 && query.length > 0);
+        clearBtn.classList.toggle('visible', query.length > 0);
+      }
+      
+      input.addEventListener('input', runSearch);
+      clearBtn.addEventListener('click', () => { input.value = ''; runSearch(); input.focus(); });
+    });
+  </script>
+</body>
+</html>
