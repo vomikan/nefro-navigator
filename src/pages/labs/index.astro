@@ -1,0 +1,197 @@
+﻿---
+// src/pages/labs/index.astro
+const BASE = '/nefro-navigator';
+---
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>НефроНавигатор | Справочник анализов</title>
+  <link rel="icon" type="image/svg+xml" href="/nefro-navigator/favicon.svg" />
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 0 auto; padding: 1rem; color: #333; line-height: 1.6; }
+    a { color: #2c5530; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { display: inline-block; margin-bottom: 1rem; }
+    h1 { margin-bottom: 0.5rem; }
+    .intro { color: #666; margin-bottom: 1.5rem; }
+    
+    .lab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .lab-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 1.2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .lab-card h3 { margin: 0 0 0.8rem; font-size: 1.1rem; color: #2c5530; }
+    
+    .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem; }
+    .input-group label { display: block; font-size: 0.85rem; color: #666; margin-bottom: 0.3rem; }
+    .input-group input { width: 100%; padding: 0.6rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+    
+    .analyze-btn { width: 100%; padding: 0.7rem; background: #4caf50; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; transition: background 0.2s; }
+    .analyze-btn:hover { background: #388e3c; }
+    
+    .result { margin-top: 1rem; padding: 0.8rem; border-radius: 6px; font-size: 0.95rem; display: none; }
+    .result.visible { display: block; }
+    .result.first { background: #e3f2fd; border-left: 4px solid #2196f3; color: #0d47a1; }
+    .result.good { background: #e8f5e9; border-left: 4px solid #4caf50; color: #1b5e20; }
+    .result.warn { background: #fff3e0; border-left: 4px solid #ff9800; color: #e65100; }
+    
+    .disclaimer { margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 6px; font-size: 0.85rem; color: #666; border: 1px solid #eee; }
+  </style>
+</head>
+<body>
+  <a href={`${BASE}/`} class="back">← На главную</a>
+  <h1>🧪 Панель анализов при ХБП</h1>
+  <p class="intro">Введите прошлый и текущий результаты. Если прошлый пуст → получите общие рекомендации. Если заполнен → проанализируем динамику.</p>
+
+  <div class="lab-grid">
+    <!-- Фосфор -->
+    <div class="lab-card" data-metric="phosphorus">
+      <h3>🦴 Фосфор (P)</h3>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Прошлый замер</label>
+          <input type="number" step="0.01" class="prev" placeholder="ммоль/л">
+        </div>
+        <div class="input-group">
+          <label>Текущий замер</label>
+          <input type="number" step="0.01" class="curr" placeholder="ммоль/л">
+        </div>
+      </div>
+      <button class="analyze-btn"> Анализировать</button>
+      <div class="result"></div>
+    </div>
+
+    <!-- Калий -->
+    <div class="lab-card" data-metric="potassium">
+      <h3>🔋 Калий (K)</h3>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Прошлый замер</label>
+          <input type="number" step="0.1" class="prev" placeholder="ммоль/л">
+        </div>
+        <div class="input-group">
+          <label>Текущий замер</label>
+          <input type="number" step="0.1" class="curr" placeholder="ммоль/л">
+        </div>
+      </div>
+      <button class="analyze-btn">📊 Анализировать</button>
+      <div class="result"></div>
+    </div>
+
+    <!-- Креатинин -->
+    <div class="lab-card" data-metric="creatinine">
+      <h3>🩸 Креатинин</h3>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Прошлый замер</label>
+          <input type="number" step="1" class="prev" placeholder="мкмоль/л">
+        </div>
+        <div class="input-group">
+          <label>Текущий замер</label>
+          <input type="number" step="1" class="curr" placeholder="мкмоль/л">
+        </div>
+      </div>
+      <button class="analyze-btn">📊 Анализировать</button>
+      <div class="result"></div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    ⚠️ <strong>Важно:</strong> Инструмент работает локально в вашем браузере. Данные не сохраняются и не передаются на сервер. 
+    Референсные значения могут отличаться в зависимости от лаборатории. 
+    Результаты не являются диагнозом. Обсудите динамику с лечащим нефрологом.
+  </div>
+
+  <script>
+    // 🔑 Конфигурация метрик: цели, тренды и советы
+    const METRICS = {
+      phosphorus: {
+        target: [0.87, 1.45],
+        unit: 'ммоль/л',
+        advice: {
+          first: 'ℹ️ <strong>Первый замер.</strong> Цель при ХБП: 0.87–1.45 ммоль/л. Ограничьте молочные продукты, орехи, газировку и продукты с фосфатными добавками (Е338–Е341).',
+          good: '✅ <strong>Так держать!</strong> Показатель в целевом диапазоне или улучшается. Продолжайте текущую диету и режим приёма биндеров.',
+          warn: '⚠️ <strong>Надо улучшить.</strong> Фосфор растёт или выходит за рамки. Исключите плавленые сыры, колбасы, скрытые фосфаты. Обсудите с врачом коррекцию дозы биндеров.'
+        }
+      },
+      potassium: {
+        target: [3.5, 5.0],
+        unit: 'ммоль/л',
+        advice: {
+          first: 'ℹ️ <strong>Первый замер.</strong> Норма: 3.5–5.0 ммоль/л. При ХБП важно не допускать значений >5.0. Ограничьте курагу, бананы, картофель, томатную пасту.',
+          good: '✅ <strong>Так держать!</strong> Калий стабилен или снижается к норме. Избегайте резких изменений в диете. Промывайте овощи перед варкой.',
+          warn: '⚠️ <strong>Надо улучшить.</strong> Калий растёт или превышает 5.0. Строго ограничьте сухофрукты, орехи, шоколад, заменители соли. Обратитесь к врачу.'
+        }
+      },
+      creatinine: {
+        target: [60, 110], // Ориентир, зависит от пола/возраста
+        unit: 'мкмоль/л',
+        advice: {
+          first: 'ℹ️ <strong>Первый замер.</strong> Ориентир: 60–110 мкмоль/л. При ХБП важна не разовая цифра, а стабильность. Контролируйте давление и гидратацию.',
+          good: '✅ <strong>Так держать!</strong> Уровень стабилен или снижается. Это хороший признак. Продолжайте наблюдение у нефролога.',
+          warn: '⚠️ <strong>Надо улучшить.</strong> Рост креатинина требует внимания. Исключите НПВС, контролируйте АД, обсудите с врачом коррекцию терапии.'
+        }
+      }
+    };
+
+    function analyzeMetric(card) {
+      const key = card.dataset.metric;
+      const conf = METRICS[key];
+      
+      const prevInput = card.querySelector('.prev');
+      const currInput = card.querySelector('.curr');
+      const resultDiv = card.querySelector('.result');
+      
+      const prev = parseFloat(prevInput.value);
+      const curr = parseFloat(currInput.value);
+      
+      // Сброс и валидация
+      resultDiv.className = 'result';
+      resultDiv.innerHTML = '';
+      
+      if (isNaN(curr)) {
+        resultDiv.innerHTML = '<span style="color:#666">Введите текущее значение</span>';
+        resultDiv.classList.add('visible');
+        return;
+      }
+
+      let html = '';
+      let statusClass = 'first';
+
+      if (isNaN(prev)) {
+        // Первое обращение
+        html = conf.advice.first;
+      } else {
+        // Есть динамика
+        const diff = curr - prev;
+        const isInRange = curr >= conf.target[0] && curr <= conf.target[1];
+        const trendIcon = diff > 0 ? '↗️' : diff < 0 ? '↘️' : '→';
+        
+        // Логика оценки (для креатинина рост = плохо, для остальных рост = плохо)
+        const isWorsening = (key === 'creatinine') ? (diff > 0.5) : (diff > 0.05);
+        const isImproving = (key === 'creatinine') ? (diff < -0.5) : (diff < -0.05);
+        
+        if (isImproving || (isInRange && Math.abs(diff) <= 0.05)) {
+          html = `${trendIcon} <strong>Динамика:</strong> ${prev} → ${curr} ${conf.unit}<br>${conf.advice.good}`;
+          statusClass = 'good';
+        } else {
+          html = `${trendIcon} <strong>Динамика:</strong> ${prev} → ${curr} ${conf.unit}<br>${conf.advice.warn}`;
+          statusClass = 'warn';
+        }
+      }
+
+      resultDiv.innerHTML = html;
+      resultDiv.classList.add('visible', statusClass);
+    }
+
+    // Привязка событий
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.analyze-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const card = e.target.closest('.lab-card');
+          analyzeMetric(card);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

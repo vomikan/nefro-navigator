@@ -1,0 +1,170 @@
+﻿---
+// src/pages/about/index.astro
+const BASE = '/nefro-navigator';
+
+// 🔑 SEO Данные
+const pageTitle = 'О проекте | НефроНавигатор';
+const pageDescription = 'Миссия проекта, источники информации и контакты. Практический гид по жизни с ХБП без регистрации и сбора данных.';
+---
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <!-- 🔑 Динамические заголовки -->
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+  <link rel="icon" type="image/svg+xml" href="/nefro-navigator/favicon.svg" />
+
+  <!-- Для красивых ссылок в Telegram/VK/WhatsApp -->
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={`https://vomikan.github.io${BASE}/about/`} />
+
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 1rem; color: #333; line-height: 1.6; }
+    a { color: #2c5530; text-decoration: none; }
+    .back { display: inline-block; margin-bottom: 1.5rem; }
+    h1 { color: #2c5530; border-bottom: 2px solid #e8f5e9; padding-bottom: 0.5rem; }
+    
+    .intro { background: #f0f4c3; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 5px solid #8bc34a; }
+    
+    .methods { display: grid; gap: 1.5rem; }
+    .method-card { border: 1px solid #ddd; padding: 1.5rem; border-radius: 8px; background: #fff; }
+    .method-card h3 { margin-top: 0; color: #2c5530; }
+    
+    .btn-main { 
+      display: inline-block; 
+      width: 100%; 
+      text-align: center;
+      padding: 1rem; 
+      background: #ff5722; /* Цвет Boosty */
+      color: white; 
+      border-radius: 8px; 
+      font-weight: bold; 
+      text-decoration: none; 
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+    .btn-main:hover { background: #e64a19; }
+    
+    .copy-box { 
+      background: #f5f5f5; 
+      padding: 0.8rem; 
+      border-radius: 6px; 
+      font-family: monospace; 
+      word-break: break-all; 
+      margin: 0.5rem 0; 
+      position: relative;
+      cursor: pointer;
+    }
+    .copy-box:active { background: #e0e0e0; }
+    .copy-hint { font-size: 0.8rem; color: #666; display: block; margin-top: 0.3rem; }
+
+    footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; text-align: center; }
+  </style>
+</head>
+<body>
+  <a href={`${BASE}/`} class="back">← На главную</a>
+  
+  <h1>️ О проекте «НефроНавигатор»</h1>
+  
+  <div class="mission-box">
+  <h3 style="margin-top:0;">🎯 Миссия проекта</h3>
+    <p>
+      <strong>Просвещение и структурирование знаний.</strong>
+    </p>
+    <p>
+      Пациенты, впервые столкнувшиеся с диагнозом ХБП, часто попадают в состояние растерянности. 
+      С одной стороны — информационный вакуум и непонимание, что делать дальше. 
+      С другой — избыток разрозненной, противоречивой или слишком сложной информации, которая только усиливает тревогу.
+    </p>
+    <p>
+      «НефроНавигатор» решает эту проблему, собирая проверенные практические знания, рецепты и инструменты самоконтроля в одном месте с удобным поиском. 
+      Наша цель — превратить хаос в понятную систему, чтобы вы могли сосредоточиться на жизни, а не на поиске ответов.
+    </p>
+  </div>
+
+  <h2>📚 Источники контента</h2>
+  <div class="source-highlight">
+    <p>
+      Основой большинства материалов (статей, рецептов, рекомендаций по диете) послужил личный блог и опыт автора проекта 
+      <strong>«Чат Дневник ХПНщика»</strong>.
+    </p>
+    <p>
+      Это не сухая теория из учебников, а <strong>практические знания человека, который глубоко разобрался в теме на собственном опыте</strong>. 
+      Рецепты адаптированы под реальные ограничения по фосфору, калию и натрию, проверены в быту и направлены на улучшение качества жизни.
+    </p>
+    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+      <em>В отдельных материалах приводятся ссылки на авторитетные источники (клинические рекомендации Минздрава РФ, гайдлайны KDIGO, обсуждения в профильных сообществах) для дополнительного контекста.</em>
+    </p>
+  </div>
+
+  <h2>⚠️ Важное предупреждение</h2>
+  <div class="warning-box">
+    <strong>Проект носит информационно-просветительский характер.</strong>
+    <ul style="margin: 0.5rem 0 0 1.2rem;">
+      <li>Материалы основаны на личном опыте и не являются индивидуальной медицинской рекомендацией.</li>
+      <li>То, что помогло одному человеку, может не подойти другому из-за различий в стадии ХБП, сопутствующих заболеваниях и анализах.</li>
+      <li><strong>Всегда консультируйтесь с лечащим врачом-нефрологом</strong> перед изменением диеты или режима приема препаратов.</li>
+    </ul>
+  </div>
+
+	<h2>🤝 Связь и участие</h2>
+    <p>
+      «НефроНавигатор» — это открытый проект. Мы приветствуем обратную связь, исправления ошибок и новые идеи.
+    </p>
+    
+    <div class="contact-grid" style="display: grid; gap: 1rem; margin-top: 1rem;">
+      
+      <!-- Способ 1: GitHub Issues (Для багов и идей) -->
+      <div class="method-card">
+        <h3>🐛 Сообщить об ошибке или предложить идею</h3>
+        <p>Если вы нашли неточность в тексте, неработающую ссылку или хотите предложить новый раздел, создайте Issue в репозитории проекта.</p>
+        <a href="https://github.com/vomikan/nefro-navigator/issues" target="_blank" rel="noopener" class="btn-main">Перейти в GitHub Issues </a>
+        <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">*Требуется аккаунт GitHub. Это лучший способ отслеживать статус вашего предложения.</p>
+      </div>
+    
+      <!-- Способ 2: Email (Для простых вопросов) -->
+      <div class="method-card">
+        <h3>️📩 Написать письмо</h3>
+        <p>Если у вас нет аккаунта GitHub или вопрос требует конфиденциальности.</p>
+        <div class="copy-box" onclick="navigator.clipboard.writeText('vomikan@mail.ru'); alert('Email скопирован!')">
+          vomikan@mail.ru
+        </div>
+        <span class="copy-hint">Нажмите, чтобы скопировать адрес.</span>
+      </div>
+    
+    </div>
+    
+    <h3>️ Как участвовать в разработке?</h3>
+    <ul>
+      <li><strong>Контент:</strong> Если вы врач или опытный пациент и хотите написать статью, откройте Issue с темой «Новая статья».</li>
+      <li><strong>Код:</strong> Проект написан на Astro. Вы можете форкнуть репозиторий, внести изменения и прислать Pull Request.</li>
+      <li><strong>Дизайн:</strong> Нужна помощь с версткой или иконками? Ждем ваших предложений!</li>
+    </ul>
+    <p style="font-size: 0.9rem; color: #666;">
+      Репозиторий проекта: <a href="https://github.com/vomikan/nefro-navigator" target="_blank">github.com/vomikan/nefro-navigator</a>
+    </p>
+
+
+  <h2>🔒 Конфиденциальность</h2>
+  <p>
+    Мы ценим вашу приватность. Сайт работает без регистрации.
+  </p>
+  <ul>
+    <li> <strong>Cookies:</strong> Используются только технические файлы для работы сайта.</li>
+  </ul>
+
+  <footer>
+    <p>© 2026 НефроНавигатор. Практический гид по жизни с ХБП.</p>
+    <p>
+      <a href={`${BASE}/`}>Главная</a> | 
+      <a href={`${BASE}/resources/`}>Полезные ссылки</a>
+    </p>
+		
+  </footer>
+</body>
+</html>

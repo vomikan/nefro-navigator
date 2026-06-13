@@ -1,5 +1,10 @@
 ---
 // src/pages/index.astro — Главная навигация
+
+// 🔑 SEO Данные
+const pageTitle = 'Гид по ХБП | НефроНавигатор';
+const pageDescription = 'Рецепты, статьи, калькуляторы и ресурсы для пациентов с хронической болезнью почек. Бесплатно и без регистрации.';
+
 ---
 
 <!DOCTYPE html>
@@ -7,7 +12,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>НефроНавигатор | Питание при ХБП</title>
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+  
   <style>
     :root { --primary: #2c5530; --secondary: #4a7c59; --bg: #f8f9fa; --card: #fff; --text: #333; --muted: #666; --border: #e0e0e0; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,12 +51,18 @@
   </header>
 
   <nav class="nav-grid">
-    <a href="/nefro-navigator/recipes/" class="nav-card">
-      <span class="icon">🍽️</span>
-      <h3>Рецепты</h3>
-      <p>94+ адаптированных блюда с расчётом БЖУК, калия, фосфора и натрия</p>
+    <a href="/nefro-navigator/about/" class="nav-card">
+      <div class="icon">📌</div>
+      <h2>О проекте</h2>
+      <p>Миссия, источники информации, дисклеймеры и технологии.</p>
     </a>
-    
+
+    <a href="/nefro-navigator/resources/" class="nav-card">
+      <span class="icon">🔗</span>
+      <h3>Полезные ссылки</h3>
+      <p>Различные ресурсы для пациентов с ХБП</p>
+    </a>
+
     <a href="/nefro-navigator/articles/" class="nav-card">
       <span class="icon">📝</span>
       <h3>Статьи</h3>
@@ -62,16 +75,16 @@
       <p>Материалы о диете, анализах, лекарствах и образе жизни при ХБП</p>
     </a>
     
+    <a href="/nefro-navigator/recipes/" class="nav-card">
+      <span class="icon">🍽️</span>
+      <h3>Рецепты</h3>
+      <p>94+ адаптированных блюда с расчётом БЖУК, калия, фосфора и натрия</p>
+    </a>
+    
     <a href="/nefro-navigator/faq/" class="nav-card">
       <span class="icon">❓</span>
       <h3>ЧаВо (FAQ)</h3>
       <p>Ответы на частые вопросы пациентов с ХБП</p>
-    </a>
-
-    <a href="/nefro-navigator/resources/" class="nav-card">
-      <span class="icon">🔗</span>
-      <h3>Полезные ссылки</h3>
-      <p>Различные ресурсы для пациентов с ХБП</p>
     </a>
 
   </nav>

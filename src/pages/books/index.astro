@@ -5,6 +5,11 @@ import path from 'path';
 import matter from 'gray-matter';
 
 const BASE = '/nefro-navigator';
+// 🔑 SEO Данные
+const pageTitle = 'Книги и руководства | НефроНавигатор';
+const pageDescription = 'Книги и руководства';
+
+
 const booksDir = path.join(process.cwd(), 'src/content/books');
 const allBooks = [];
 
@@ -28,8 +33,18 @@ allBooks.sort((a, b) => (b.year || 0) - (a.year || 0));
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <title>Книги | НефроНавигатор</title>
+
+  <!-- 🔑 Динамические заголовки -->
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
   <link rel="icon" type="image/svg+xml" href="/nefro-navigator/favicon.svg" />
+
+  <!-- Для красивых ссылок в Telegram/VK/WhatsApp -->
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={`https://vomikan.github.io${BASE}/about/`} />
+
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto; padding: 1rem; color: #333; }
     a { color: #2c5530; text-decoration: none; }

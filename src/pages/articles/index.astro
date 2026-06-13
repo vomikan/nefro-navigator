@@ -5,6 +5,10 @@ import path from 'path';
 import matter from 'gray-matter';
 
 const BASE = '/nefro-navigator'; // 🔑 Константа для динамических ссылок
+// 🔑 SEO Данные
+const pageTitle = 'Статьи о ХБП | НефроНавигатор';
+const pageDescription = 'Статьи о ХБП';
+
 const articlesDir = path.join(process.cwd(), 'src/content/articles');
 const allArticles = [];
 
@@ -41,7 +45,17 @@ allArticles.sort((a, b) => {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
-  <title>НефроНавигатор | Статьи, книги</title>
+
+  <!-- 🔑 Динамические заголовки -->
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+
+  <!-- Для красивых ссылок в Telegram/VK/WhatsApp -->
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={`https://vomikan.github.io${BASE}/about/`} />
+
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 1rem; color: #333; }
     a { color: #2c5530; text-decoration: none; }
