@@ -3,123 +3,165 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { marked } from 'marked';
 
-// 🔑 1. Константа для ссылок (обязательно в блоке ---)
 const BASE = '/nefro-navigator';
 
-// 🔑 2. Функция генерации путей
+// 1. Функция getStaticPaths
 export async function getStaticPaths() {
-  const recipesDir = path.join(process.cwd(), 'src/content/recipes');
-  const paths = [];
+  // Вспомогательная функция для рекурсивного поиска (объявлена внутри)
+  const getAllFiles = (dirPath, arrayOfFiles = []) => {
+    const files = fs.readdirSync(dirPath);
 
-  function walkDir(dir: string, baseSlug = '') {
-    const files = fs.readdirSync(dir);
     files.forEach(file => {
-      const filePath = path.join(dir, file);
-      const stat = fs.statSync(filePath);
-      if (stat.isDirectory()) {
-        walkDir(filePath, baseSlug ? `${baseSlug}/${file}` : file);
-      } else if (file.endsWith('.md')) {
-        const slug = baseSlug ? `${baseSlug}/${file.replace('.md', '')}` : file.replace('.md', '');
-        const { data } = matter(fs.readFileSync(filePath, 'utf-8'));
-        paths.push({
-          params: { slug },
-          props: { frontmatter: data },
-        });
+      const filePath = path.join(dirPath, file);
+      if (fs.statSync(filePath).isDirectory()) {
+        // Рекурсия: заходим в папку
+        arrayOfFiles = getAllFiles(filePath, arrayOfFiles);
+      } else {
+        // Добавляем файл
+        arrayOfFiles.push(filePath);
       }
     });
+
+    return arrayOfFiles;
+  };
+
+  const recipesDir = path.join(process.cwd(), 'src/content/recipes');
+
+  if (!fs.existsSync(recipesDir)) {
+    return [];
   }
-  
-  if (fs.existsSync(recipesDir)) {
-    walkDir(recipesDir);
-  }
-  return paths;
+
+  // Получаем список ВСЕХ файлов
+  const allFiles = getAllFiles(recipesDir);
+
+  return allFiles
+    .filter(file => file.endsWith('.md'))
+    .map(file => {
+      // Вычисляем slug относительно папки recipes
+      // Пример: C:/.../recipes/mains/burger.md -> mains/burger
+      const relativePath = path.relative(recipesDir, file);
+      // Заменяем обратные слэши (Windows) на прямые и убираем расширение
+      const slug = relativePath.replace(/\.md$/, '').replace(/\\/g, '/');
+
+      return {
+        params: { slug },
+        props: {} 
+      };
+    });
 }
 
+//  2. Получаем параметры текущей страницы
 const { slug } = Astro.params;
-const filePath = path.join(process.cwd(), 'src/content/recipes', slug + '.md');
 
-if (!fs.existsSync(filePath)) {
-  return Astro.redirect('/404');
+// 3. Читаем конкретный файл
+// Важно: slug теперь может быть "mains/burger-hbp", поэтому путь собираем полностью
+const filePath = path.join(process.cwd(), 'src/content/recipes', `${slug}.md`);
+
+let data = {};
+let content = '';
+
+if (fs.existsSync(filePath)) {
+  const fileContent = fs.readFileSync(filePath, 'utf-8');
+  const parsed = matter(fileContent);
+  data = parsed.data;
+  content = parsed.content;
+} else {
+  // Если файл не найден, редирект на список рецептов
+  return Astro.redirect(`${BASE}/recipes/`);
 }
 
-const fileContent = fs.readFileSync(filePath, 'utf-8');
-const { data: frontmatter, content } = matter(fileContent);
-const html = await marked(content);
-
-// 🔑 Нормализация нутриентов
-const n = frontmatter.nutrients_per_serving || frontmatter;
-const { title, stage, prep_time, servings, notes } = frontmatter;
-const stages = Array.isArray(stage) ? stage : (stage ? [stage] : []);
+// SEO данные
+const pageTitle = `${data.title || 'Рецепт'} | НефроНавигатор`;
+const pageDescription = data.notes || `Рецепт: ${data.title}. Автор: ${data.author || 'НефроНавигатор'}.`;
 ---
 
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
-  <title>{title} | НефроНавигатор</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+  <link rel="icon" type="image/svg+xml" href="/nefro-navigator/favicon.svg" />
+  
   <style>
-    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 1rem; color: #333; }
-    a { color: #2c5530; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .back { display: inline-block; margin-bottom: 1rem; }
-    .recipe-header { background: #f0f7f0; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #4caf50; }
-    .recipe-title { margin: 0 0 0.5rem; font-size: 1.5rem; }
-    .recipe-meta { font-size: 0.9rem; color: #666; display: flex; gap: 1rem; flex-wrap: wrap; }
-    .nutrients { background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 0.8rem; margin: 1rem 0; }
-    .nutrients table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-    .nutrients th, .nutrients td { padding: 0.4rem 0.6rem; text-align: left; border-bottom: 1px solid #eee; }
-    .nutrients th { background: #f8f9fa; font-weight: 600; }
-    article { margin: 2rem 0; }
-    article h2 { font-size: 1.3rem; margin: 1.5rem 0 0.8rem; }
-    article h3 { font-size: 1.1rem; margin: 1.2rem 0 0.5rem; }
-    article p { margin: 0.8rem 0; }
-    article ul, article ol { margin: 0.8rem 0; padding-left: 1.5rem; }
-    article li { margin: 0.3rem 0; }
-    article blockquote { border-left: 4px solid #4caf50; padding: 0.8rem 1rem; margin: 1.5rem 0; background: #f8f9fa; border-radius: 0 6px 6px 0; }
-    article table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-    article th, article td { border: 1px solid #ddd; padding: 0.6rem; text-align: left; }
-    article th { background: #f1f8e9; }
-    .notes { background: #fff3cd; padding: 1rem; border-radius: 6px; margin: 1.5rem 0; border-left: 4px solid #ffc107; }
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 1rem; color: #333; line-height: 1.6; }
+    a { color: #C44D34; text-decoration: none; }
+    .back { display: inline-block; margin-bottom: 1.5rem; font-weight: 500; }
+    h1 { color: #C44D34; border-bottom: 2px solid #e8f5e9; padding-bottom: 0.5rem; }
+    
+    .meta-info { background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem; }
+    .meta-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 0.3rem 0; }
+    .meta-row:last-child { border-bottom: none; }
+    
+    .source-box { 
+      margin-top: 2rem; 
+      padding: 1rem 1.5rem; 
+      background: #fdf6f0; 
+      border-left: 4px solid #5A7D9A; 
+      border-radius: 0 8px 8px 0; 
+      font-size: 0.95rem; 
+      color: #555; 
+    }
+    
     footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.9rem; color: #666; text-align: center; }
   </style>
 </head>
 <body>
-  <!-- 🔑 Правильный синтаксис: обратные кавычки ` ` внутри { } -->
-  <a href={`${BASE}/recipes/`} class="back">← Назад к рецептам</a>
+
+  <a href={`${BASE}/recipes/`} class="back">← К списку рецептов</a>
   
-  <header class="recipe-header">
-    <h1 class="recipe-title">{title}</h1>
-    <div class="recipe-meta">
-      {stages.length > 0 && <span>🩺 Стадии: {stages.join(', ')}</span>}
-      {prep_time && <span>⏱️ {prep_time}</span>}
-      {servings && <span>🍽️ {servings} порц.</span>}
+  <article>
+    <h1>{data.title}</h1>
+    
+    <!-- Карточка с мета-данными -->
+    <div class="meta-info">
+      <div class="meta-row"><span>👨‍🍳 Автор:</span> <strong>{data.author || 'Неизвестно'}</strong></div>
+      <div class="meta-row"><span>⏱ Время:</span> <span>{data.prep_time || '-'}</span></div>
+      <div class="meta-row"><span>🍽 Порций:</span> <span>{data.servings || '-'}</span></div>
+      <div class="meta-row"><span>🏷 Теги:</span> <span>{data.tags ? data.tags.join(', ') : '-'}</span></div>
+      
+      <!-- Нутриенты -->
+      {data.nutrients_per_serving && (
+        <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed #ccc;">
+          <strong>КБЖУ на порцию:</strong><br>
+          {data.nutrients_per_serving.kcal} ккал | 
+          Б: {data.nutrients_per_serving.protein_g}г | 
+          Ж: {data.nutrients_per_serving.fat_g}г | 
+          У: {data.nutrients_per_serving.carbs_g}г<br>
+          <small style="color:#666">
+            K: {data.nutrients_per_serving.potassium_mg}мг | 
+            P: {data.nutrients_per_serving.phosphorus_mg}мг | 
+            Na: {data.nutrients_per_serving.sodium_mg}мг
+          </small>
+        </div>
+      )}
     </div>
-  </header>
 
-  <div class="nutrients">
-    <strong>📊 Пищевая ценность (на порцию):</strong>
-    <table>
-      <tr><th>Ккал</th><td>{n.kcal || '—'}</td><th>Белки</th><td>{n.protein_g || '—'} г</td></tr>
-      <tr><th>Жиры</th><td>{n.fat_g || '—'} г</td><th>Углеводы</th><td>{n.carbs_g || '—'} г</td></tr>
-      <tr><th>🔋 Калий</th><td>{n.potassium_mg || '—'} мг</td><th>🦴 Фосфор</th><td>{n.phosphorus_mg || '—'} мг</td></tr>
-      <tr><th>🧂 Натрий</th><td>{n.sodium_mg || '—'} мг</td><td></td><td></td></tr>
-    </table>
-  </div>
+    <!-- Основной контент рецепта (Markdown) -->
+    <div set:html={content}></div>
 
-  <article set:html={html} />
+    <!-- 🔑 БЛОК ИСТОЧНИКА (Только если есть source_link) -->
+    {data.source_link && (
+      <div class="source-box">
+        <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #C44D34;">📚 Источник вдохновения</p>
+        <p style="margin: 0;">
+          Этот материал основан на опыте и рекомендациях из канала 
+          <a href={data.source_link} target="_blank" rel="noopener" style="color: #C44D34; text-decoration: underline; font-weight: 500;">
+            «Дневник ХПНщика»
+          </a>.
+          <br>
+          Автор: <strong>{data.author}</strong>. Используется с уважением к авторству и по договоренности.
+        </p>
+      </div>
+    )}
 
-  {notes && (
-    <div class="notes" set:html={await marked(`**💡 Примечание:** ${notes}`)} />
-  )}
+  </article>
 
   <footer>
-    <p>⚠️ Материалы носят информационный характер. Консультация врача обязательна.</p>
-    <p>
-      <a href={`${BASE}/`}>На главную</a> | 
-      <a href={`${BASE}/recipes/`}>К рецептам</a>
-    </p>
+    <p>© 2026 НефроНавигатор. <a href={`${BASE}/about/`}>О проекте</a></p>
   </footer>
+
 </body>
 </html>

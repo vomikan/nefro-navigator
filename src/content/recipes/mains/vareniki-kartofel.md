@@ -1,4 +1,4 @@
----
+﻿---
 title: "Вареники с картофелем (адаптированные)"
 stage: [3a, 3b, 4]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 172
   sodium_mg: 35
 tags: [low-protein, vegetarian, traditional, freezer-friendly]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-09
 notes: "*Калий снижен на 40–50% за счёт вымачивания картофеля 6–8 ч и отваривания со сливом воды. Тесто как для пельменей."
 ---

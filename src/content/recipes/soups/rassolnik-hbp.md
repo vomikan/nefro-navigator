@@ -1,4 +1,4 @@
----
+﻿---
 title: "Рассольник адаптированный (ХБП)"
 stage: [3a, 3b, 4]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 88
   sodium_mg: 45
 tags: [low-protein, first-course, traditional, pickles]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-12
 notes: "Огурцы вымочены для снижения натрия. Перловка промыта. Мясо отварное отдельно."
 ---

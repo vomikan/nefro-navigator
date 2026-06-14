@@ -1,4 +1,4 @@
----
+﻿---
 title: "Рисовые чипсы (запечённые, без соли)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 35
   sodium_mg: 2
 tags: [low-protein, snack, baked, crispy]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-05
 notes: "Без жарки и соли. Хрустящая альтернатива магазинным чипсам. Калий минимален."
 ---

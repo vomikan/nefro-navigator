@@ -1,4 +1,4 @@
----
+﻿---
 title: "Квашеная капуста без соли (ХБП)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 10
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 20
   sodium_mg: 5
 tags: [low-protein, probiotic, low-sodium, fermentation]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-02
 notes: "Естественная ферментация без NaCl. Содержит природные пробиотики, но контролируйте калий."
 ---

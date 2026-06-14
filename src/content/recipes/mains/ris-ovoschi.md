@@ -1,4 +1,4 @@
----
+﻿---
 title: "Рис с овощами (адаптированный)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 58
   sodium_mg: 22
 tags: [low-protein, vegan, side-dish, rice]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-11
 notes: "Рис промыт до прозрачной воды — снижает калий и фосфор. Овощи без кожуры для минимизации нутриентов."
 ---

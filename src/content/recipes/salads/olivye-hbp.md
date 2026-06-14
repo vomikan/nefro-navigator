@@ -1,4 +1,4 @@
----
+﻿---
 title: "Оливье ХБП (адаптированный)"
 stage: [3a, 3b, 4]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 75
   sodium_mg: 140
 tags: [holiday, low-protein, salad]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-03
 notes: "Колбаса заменена на отварную курицу, майонез домашний, горошек в минимальном количестве."
 ---

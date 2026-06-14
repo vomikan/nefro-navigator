@@ -1,4 +1,4 @@
----
+﻿---
 title: "Шаурма ХБП (вариант 2, с овощами и рисом)"
 stage: [3a, 3b, 4]
 servings: 1
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 90
   sodium_mg: 60
 tags: [low-protein, quick, lunch, wrap, rice]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-08
 notes: "Дополнение к базовому рецепту: добавлен рис для сытности. Лаваш МБД, отварная курица, домашний соус."
 ---

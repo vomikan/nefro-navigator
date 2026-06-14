@@ -1,4 +1,4 @@
----
+﻿---
 title: "Суп с фрикадельками (ХБП-адаптированный)"
 stage: [3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 120
   sodium_mg: 35
 tags: [low-protein, low-sodium, quick, first-course]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-02
 notes: "Картофель вымочен и отварен в первой воде. Мясо используется отварное/блендерированное для снижения пуринов и фосфора."
 ---

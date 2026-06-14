@@ -1,4 +1,4 @@
----
+﻿---
 title: "Пастила яблочная (без сахара, адаптированная)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 8
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 12
   sodium_mg: 1
 tags: [low-protein, dessert, vegan, no-sugar, dried]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-07
 notes: "Натуральная пастила из яблок без добавления сахара. Калий умеренный — учитывать в суточном лимите."
 ---

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Пельмени «ХБП-адаптированные»"
 stage: [3a, 3b, 4]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 85
   sodium_mg: 40
 tags: [low-protein, low-phosphorus, family-meal, freezer-friendly]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-01
 notes: "Калий и фосфор снижены за счёт отваривания курицы со сливом бульона и добавления кабачка в фарш. Не подходит для стадий <0.6 г белка без кетоаналогов."
 ---

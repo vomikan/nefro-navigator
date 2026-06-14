@@ -1,4 +1,4 @@
----
+﻿---
 title: "Харчо ХБП (адаптированный)"
 stage: [3a, 3b, 4]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 85
   sodium_mg: 35
 tags: [low-protein, traditional, first-course, spicy]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-05
 notes: "Без орехов и томатной пасты с фосфатами. Кислоту даёт ткемали/лимон. Мясо предварительно отварено."
 ---

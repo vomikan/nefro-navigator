@@ -1,4 +1,4 @@
----
+﻿---
 title: "Пюре из цветной капусты (адаптированное)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 42
   sodium_mg: 15
 tags: [low-protein, vegan, side-dish, quick]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-11
 notes: "Цветная капуста содержит меньше калия, чем картофель. Отваривание со сливом воды снижает нутриенты ещё больше."
 ---

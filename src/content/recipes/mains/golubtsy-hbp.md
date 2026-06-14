@@ -1,4 +1,4 @@
----
+﻿---
 title: "Голубцы адаптированные (с рисом и курицей)"
 stage: [3a, 3b, 4, 5-pd]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 70
   sodium_mg: 30
 tags: [low-protein, freezer-friendly, traditional, balanced]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-02"
 notes: "Капуста бланшируется. Фарш: отварная курица + промытый рис + овощи. Соус без томатной пасты с фосфатами."
 ---

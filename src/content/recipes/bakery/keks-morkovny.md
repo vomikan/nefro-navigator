@@ -1,4 +1,4 @@
----
+﻿---
 title: "Кекс морковный (низкобелковый)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 8
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 48
   sodium_mg: 18
 tags: [low-protein, dessert, baking, carrot, moist]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-06"
 notes: "Морковь даёт естественную сладость и влажность. Крахмал снижает белок. Идеален к чаю."
 ---

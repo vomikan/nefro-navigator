@@ -1,4 +1,4 @@
----
+﻿---
 title: "Рис: подготовка для снижения калия и фосфора"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 1
@@ -12,7 +12,8 @@ nutrients_per_100g_cooked:
   phosphorus_mg: 28*
   sodium_mg: 1
 tags: [technique, low-potassium, low-phosphorus, foundational]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-11
 notes: "*Значения снижены за счёт промывки и замачивания. Универсальная техника для всех видов риса."
 ---

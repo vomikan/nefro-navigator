@@ -1,4 +1,4 @@
----
+﻿---
 title: "Зефир домашний (адаптированный, без яиц)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 12
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 5
   sodium_mg: 2
 tags: [low-protein, dessert, vegan, no-bake]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-07
 notes: "На агар-агаре, без яичного белка. Лёгкий, воздушный, с минимальным фосфором. Идеален для перекуса."
 ---

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Перцы фаршированные (с овощами и рисом)"
 stage: [3a, 3b, 4, 5-pd]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 60
   sodium_mg: 20
 tags: [low-protein, low-phosphorus, vegetable-base, baked]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-02
 notes: "Минимум мяса, основа — рис и овощи. Запекание без томатной пасты."
 ---

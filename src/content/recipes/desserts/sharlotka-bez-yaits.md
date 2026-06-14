@@ -1,4 +1,4 @@
----
+﻿---
 title: "Шарлотка без яиц (адаптированная)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 6
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 35
   sodium_mg: 15
 tags: [low-protein, dessert, egg-free, baking]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-03
 notes: "Яйца заменены на крахмал + воду. Яблоки — безопасный фрукт при ХБП."
 ---

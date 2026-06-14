@@ -1,4 +1,4 @@
----
+﻿---
 title: "Торт морковный (адаптированный)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 8
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 45
   sodium_mg: 25
 tags: [low-protein, dessert, celebration, carrot]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-04
 notes: "Морковь даёт сладость без избытка сахара. Крем на основе домашнего майонеза + фруктовое пюре."
 ---

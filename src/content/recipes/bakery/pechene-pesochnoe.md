@@ -1,4 +1,4 @@
----
+﻿---
 title: "Песочное печенье (низкобелковое)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 12
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 32
   sodium_mg: 8
 tags: [low-protein, dessert, cookie, quick]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-06"
 notes: "Хрустящее печенье без избытка белка. Без разрыхлителя с фосфатами. Идеально к чаю."
 ---

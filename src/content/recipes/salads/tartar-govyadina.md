@@ -1,4 +1,4 @@
----
+﻿---
 title: "Тартар из отварной говядины (адаптированный)"
 stage: [3a, 3b, 4]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 125
   sodium_mg: 55
 tags: [low-protein, quick, beef, appetizer]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-10
 notes: "Говядина предварительно отварена со сливом бульона. Овощи без кожуры. Заправка — домашний майонез или масло."
 ---

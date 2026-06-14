@@ -1,4 +1,4 @@
----
+﻿---
 title: "Майонез домашний (без яиц и фосфатов)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 10
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 5
   sodium_mg: 2
 tags: [low-protein, low-phosphorus, low-sodium, sauce]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-01
 notes: "Без яичного желтка (источник фосфора) и соли. Эмульгация на молоке и горчице. Срок хранения 3–4 дня в холодильнике."
 ---

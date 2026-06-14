@@ -1,4 +1,4 @@
----
+﻿---
 title: "Пельмени на заварном тесте (адаптированные)"
 stage: [3a, 3b, 4]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 80
   sodium_mg: 42
 tags: [low-protein, low-phosphorus, family-meal, freezer-friendly]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-02
 notes: "Заварное тесто менее проницаемо для белка. Фарш: 2/3 отварной курицы + 1/3 сырой свинины для аромата."
 ---

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Торт Наполеон ХБП (адаптированный)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 10
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 48
   sodium_mg: 22
 tags: [low-protein, dessert, celebration, layered]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-07
 notes: "Коржи на крахмальной основе, крем — домашний майонез + фруктовое пюре. Без яиц и фосфатных добавок."
 ---

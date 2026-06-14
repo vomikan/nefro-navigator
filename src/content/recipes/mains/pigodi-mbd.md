@@ -1,4 +1,4 @@
----
+﻿---
 title: "Пигоди МБД (корейские пирожки на пару)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 6
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 52
   sodium_mg: 18
 tags: [low-protein, steamed, korean, vegetarian]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-09
 notes: "Адаптированная версия корейских пирожков. Тесто на крахмале, начинка из капусты и овощей."
 ---

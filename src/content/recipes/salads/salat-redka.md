@@ -1,4 +1,4 @@
----
+﻿---
 title: "Салат из редьки (адаптированный)"
 stage: [3a, 3b, 4]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 38
   sodium_mg: 15
 tags: [low-protein, vegan, quick, side-dish]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-13
 notes: "Редька содержит умеренный калий — порция ограничена. Заправка — масло или домашний майонез."
 ---

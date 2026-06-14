@@ -1,4 +1,4 @@
----
+﻿---
 title: "Мусс ягодный (без яиц и молочных продуктов)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 15
   sodium_mg: 5
 tags: [low-protein, dessert, vegan, quick]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-04
 notes: "Лёгкий десерт на желатине и ягодном пюре. Без сахара — можно использовать фруктозу или стевию."
 ---

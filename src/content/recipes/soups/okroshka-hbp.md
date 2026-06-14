@@ -1,4 +1,4 @@
----
+﻿---
 title: "Окрошка адаптированная (ХБП)"
 stage: [3a, 3b, 4]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 85
   sodium_mg: 45
 tags: [low-protein, cold-soup, summer, kvass]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-13
 notes: "На квасе без соли. Овощи вымочены, мясо отварное. Калий контролируется подготовкой ингредиентов."
 ---

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Булочки на пару (МБД-версия)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 40
   sodium_mg: 5
 tags: [low-protein, steamed, gentle, breakfast]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-05"
 notes: "Щадящая термическая обработка — пар. Без корочки, легко усваивается. Идеально при чувствительном ЖКТ."
 ---

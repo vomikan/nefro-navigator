@@ -1,4 +1,4 @@
----
+﻿---
 title: "Майонез домашний на молоке (без яиц и фосфатов)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 15
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 4
   sodium_mg: 2
 tags: [low-protein, low-phosphorus, low-sodium, sauce, emulsion]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-02
 notes: "Классическая адаптация без яичного желтка (источник фосфора). Эмульгация на молоке. Хранить 3–4 дня."
 ---

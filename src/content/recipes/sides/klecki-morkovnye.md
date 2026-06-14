@@ -1,4 +1,4 @@
----
+﻿---
 title: "Клёцки морковно-кукурузные (без белка)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 3
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 40
   sodium_mg: 10
 tags: [low-protein, side-dish, vegetarian, quick]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-04
 notes: "Морковь даёт сладость и цвет, крахмал — связку. Идеальный гарнир к мясу или самостоятельное блюдо."
 ---

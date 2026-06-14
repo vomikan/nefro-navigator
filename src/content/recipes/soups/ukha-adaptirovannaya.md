@@ -1,4 +1,4 @@
----
+﻿---
 title: "Уха адаптированная (из белой рыбы)"
 stage: [3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 105
   sodium_mg: 35
 tags: [low-protein, first-course, fish, traditional]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-12
 notes: "Рыба отварная, первый бульон слит для снижения пуринов и фосфора. Овощи вымочены."
 ---

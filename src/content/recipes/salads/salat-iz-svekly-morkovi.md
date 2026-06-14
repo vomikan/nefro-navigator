@@ -1,4 +1,4 @@
----
+﻿---
 title: "Салат из свёклы и моркови (адаптированный)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 42
   sodium_mg: 22
 tags: [low-protein, vegan, quick, side-dish, root-vegetables]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-15
 notes: "Корнеплоды отварены, сок слит. Заправка — масло или домашний майонез. Простой гарнир."
 ---

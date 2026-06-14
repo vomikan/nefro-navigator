@@ -1,4 +1,4 @@
----
+﻿---
 title: "Желе фруктовое (без сахара, адаптированное)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 5
   sodium_mg: 2
 tags: [low-protein, dessert, vegan, no-sugar, gelatin]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-13
 notes: "На желатине и фруктовом соке без сахара. Лёгкий десерт с минимальным фосфором и калием."
 ---

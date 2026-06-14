@@ -1,4 +1,4 @@
----
+﻿---
 title: "Чизкейк адаптированный (на крахмальной основе)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 8
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 58
   sodium_mg: 35
 tags: [low-protein, dessert, celebration, no-bake]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-14"
 notes: "Основа из МБ-печенья, крем на твороге 5% с фруктовым пюре. Без избытка фосфора и калия."
 ---

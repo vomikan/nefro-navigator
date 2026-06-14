@@ -1,4 +1,4 @@
----
+﻿---
 title: "Борщ ХБП (без зажарки, с вымачиванием)"
 stage: [3a, 3b, 4]
 servings: 1
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 75
   sodium_mg: 25
 tags: [low-protein, low-sodium, first-course, traditional]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-02
 notes: "Классический борщ адаптирован: овощи вымочены, первый бульон слит, мясо отварное отдельно. Без пассеровки."
 ---

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Картофель фри (адаптированный)"
 stage: [3a, 3b, 4]
 servings: 1
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 35
   sodium_mg: 5
 tags: [low-protein, snack, potassium-reduction, comfort-food]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-02
 notes: "Калий снижается на 50–75% за счёт ночного вымачивания и предварительного отваривания."
 ---

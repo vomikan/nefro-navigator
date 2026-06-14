@@ -1,4 +1,4 @@
----
+﻿---
 title: "Чебуреки адаптированные"
 stage: [3a, 3b, 4]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 75
   sodium_mg: 35
 tags: [low-protein, family-meal, frying, traditional]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-02
 notes: "Тесто с крахмалом, фарш из отварной курицы с овощами. Жарка на минимуме масла."
 ---

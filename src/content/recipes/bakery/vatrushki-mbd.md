@@ -1,4 +1,4 @@
----
+﻿---
 title: "Ватрушки МБД (низкобелковые)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 6
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 48
   sodium_mg: 18
 tags: [low-protein, dessert, baking, sweet]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-12"
 notes: "Тесто на крахмале, начинка из творога с низким фосфором или фруктового пюре."
 ---

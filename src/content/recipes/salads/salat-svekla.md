@@ -1,4 +1,4 @@
----
+﻿---
 title: "Салат из свёклы (адаптированный)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 35
   sodium_mg: 25
 tags: [low-protein, vegan, quick, side-dish]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-10
 notes: "Свёкла отварена в мундире, сок слит. Заправка — масло или домашний майонез. Простой гарнир к основному блюду."
 ---

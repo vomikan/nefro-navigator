@@ -1,4 +1,4 @@
----
+﻿---
 title: "Гречка адаптированная (с промывкой)"
 stage: [3a, 3b, 4]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 145
   sodium_mg: 5
 tags: [low-protein, side-dish, grain, potassium-reduction]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-11
 notes: "*Значения снижены за счёт промывки и отваривания со сливом воды. Гречка — источник железа, но содержит калий/фосфор, поэтому порция ограничена."
 ---

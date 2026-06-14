@@ -1,4 +1,4 @@
----
+﻿---
 title: "Суп-пюре из кабачков (адаптированный)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 42
   sodium_mg: 18
 tags: [low-protein, vegan, first-course, quick, creamy]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-12
 notes: "Кабачок — овощ с низким калием. Крем-суп без молочных продуктов, загущение крахмалом."
 ---

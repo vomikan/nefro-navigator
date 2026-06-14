@@ -1,4 +1,4 @@
----
+﻿---
 title: "Лаваши тонкие МБД (крахмальная основа)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 6
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 30
   sodium_mg: 5
 tags: [low-protein, staple, wrap, starch-base]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-04"
 notes: "Тонкие лепёшки на крахмале для шаурмы, роллов, закусок. Без дрожжей и соли."
 ---

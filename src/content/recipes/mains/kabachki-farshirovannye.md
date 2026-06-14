@@ -1,4 +1,4 @@
----
+﻿---
 title: "Кабачки фаршированные (овощная начинка)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 65
   sodium_mg: 25
 tags: [low-protein, vegetarian, baked, summer]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-05
 notes: "Начинка на основе риса и овощей. Минимум белка, максимум вкуса."
 ---

@@ -1,4 +1,4 @@
----
+﻿---
 title: "Сельдь под шубой (адаптированная)"
 stage: [3a, 3b, 4]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 95
   sodium_mg: 180
 tags: [holiday, low-protein, layered-salad]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-03
 notes: "Картофель вымочен и отварен, майонез домашний. Калий снижен за счёт предварительной обработки овощей."
 ---

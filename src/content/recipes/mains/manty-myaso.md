@@ -1,4 +1,4 @@
----
+﻿---
 title: "Манты с мясом (адаптированные)"
 stage: [3a, 3b, 4]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 82
   sodium_mg: 38
 tags: [low-protein, steamed, traditional, meat]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-14
 notes: "Фарш из отварной курицы с добавлением сырой для аромата. Паровая обработка сохраняет вкус без избытка жира."
 ---

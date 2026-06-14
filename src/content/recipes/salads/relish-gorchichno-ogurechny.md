@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 8
   sodium_mg: 2
 tags: [low-protein, low-sodium, condiment, fermentation]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-03
 notes: "Без соли, с уксусом и горчицей. Идеален к мясу, рыбе, картофелю."
 ---

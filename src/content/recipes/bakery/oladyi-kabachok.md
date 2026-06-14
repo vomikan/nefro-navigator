@@ -1,4 +1,4 @@
----
+﻿---
 title: "Оладьи из кабачков (адаптированные)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 3
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 45
   sodium_mg: 25
 tags: [low-protein, vegetarian, quick, breakfast]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-03"
 notes: "Кабачок даёт сочность без избытка белка. Крахмал вместо муки для снижения белка."
 ---

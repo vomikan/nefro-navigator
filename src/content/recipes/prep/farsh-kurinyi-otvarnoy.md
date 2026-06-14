@@ -1,4 +1,4 @@
----
+﻿---
 title: "Фарш куриный отварной (база для рецептов)"
 stage: [3a, 3b, 4, 5-pd]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 160
   sodium_mg: 65
 tags: [low-protein, base, meal-prep, freezer-friendly]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-10
 notes: "*Значения снижены за счёт отваривания со сливом бульона. База для пельменей, голубцов, супов. Замораживать порционно."
 ---

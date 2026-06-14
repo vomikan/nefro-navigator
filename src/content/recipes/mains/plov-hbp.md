@@ -1,4 +1,4 @@
----
+﻿---
 title: "Плов адаптированный (с предварительным отвариванием)"
 stage: [3a, 3b, 4]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 75
   sodium_mg: 30
 tags: [low-protein, traditional, one-pot, rice]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-04
 notes: "Мясо предварительно отварено со сливом бульона. Рис промыт до прозрачной воды для снижения калия/фосфора."
 ---

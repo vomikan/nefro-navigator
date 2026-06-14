@@ -1,4 +1,4 @@
----
+﻿---
 title: "Торт морковный (вариант 2, с маскарпоне)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 8
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 52
   sodium_mg: 28
 tags: [low-protein, dessert, celebration, carrot, mascarpone]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-07
 notes: "Крем на основе маскарпоне + фруктовое пюре. Коржи более влажные за счёт масла в тесте. Идеален для праздников."
 ---

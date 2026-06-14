@@ -1,4 +1,4 @@
----
+﻿---
 title: "Мармелад домашний (на пектине, без желатина)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 12
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 3
   sodium_mg: 1
 tags: [low-protein, dessert, vegan, pectin, no-gelatin]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-08
 notes: "На пектине — растительном загустителе. Без желатина, яиц и молочных продуктов. Идеален для перекуса."
 ---

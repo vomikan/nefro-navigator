@@ -1,4 +1,4 @@
----
+﻿---
 title: "Хлеб МБ с псилиумом (хлебопечка)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 10
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 62
   sodium_mg: 10
 tags: [low-protein, staple, bread-maker, fiber]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-12"
 notes: "Псилиум добавляет клетчатку и улучшает структуру теста без глютена. Белок снижен за счёт крахмала."
 ---

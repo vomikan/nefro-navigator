@@ -1,4 +1,4 @@
----
+﻿---
 title: "Вареники с вишней (адаптированные)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 48
   sodium_mg: 12
 tags: [low-protein, dessert, vegetarian, freezer-friendly]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-12
 notes: "*Калий снижен за счёт удаления косточек и использования замороженной вишни без сиропа. Тесто как для пельменей."
 ---

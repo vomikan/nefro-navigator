@@ -1,4 +1,4 @@
----
+﻿---
 title: "Пирожное «Картошка» (адаптированное)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 6
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 42
   sodium_mg: 15
 tags: [low-protein, dessert, no-bake, nostalgic]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-06"
 notes: "Классический десерт без выпечки. Основа — крошка МБ-хлеба + какао + домашний майонез вместо сливочного крема."
 ---

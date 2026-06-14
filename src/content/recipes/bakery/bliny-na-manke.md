@@ -1,4 +1,4 @@
----
+﻿---
 title: "Оладьи на манке (низкобелковые)"
 stage: ["1", "2", "3a", "3b", "4", "5-pd"]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 48
   sodium_mg: 18
 tags: ["low-protein", "breakfast", "quick", "semolina"]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-06"
 notes: "Манка даёт нежную текстуру. Без яиц — полностью низкобелковый вариант. Идеальны с вареньем или мёдом."
 ---

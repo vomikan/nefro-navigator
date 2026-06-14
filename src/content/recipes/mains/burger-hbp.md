@@ -1,4 +1,4 @@
----
+﻿---
 title: "Бургер ХБП (адаптированный)"
 stage: [3a, 3b, 4]
 servings: 1
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 85
   sodium_mg: 55
 tags: [low-protein, quick, lunch, burger]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-08
 notes: "Булочка МБ, котлета из отварного фарша, домашний соус. Без избытка натрия и фосфора."
 ---

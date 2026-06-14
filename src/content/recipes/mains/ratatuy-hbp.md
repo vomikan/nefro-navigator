@@ -1,4 +1,4 @@
----
+﻿---
 title: "Рататуй адаптированный (овощное рагу)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 3
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 55
   sodium_mg: 20
 tags: [low-protein, vegan, vegetable, baked]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-05
 notes: "Овощи без кожуры, тушение без бульона. Калий контролируется выбором и обработкой овощей."
 ---

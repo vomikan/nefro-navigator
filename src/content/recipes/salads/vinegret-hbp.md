@@ -1,4 +1,4 @@
----
+﻿---
 title: "Винегрет адаптированный (ХБП)"
 stage: [3a, 3b, 4]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 75
   sodium_mg: 45
 tags: [low-protein, vegetarian, salad, traditional]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-10
 notes: "Картофель и свёкла вымочены и отварены. Солёные огурцы заменены на свежие или вымочены. Заправка — домашний майонез или масло."
 ---

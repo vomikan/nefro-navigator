@@ -1,4 +1,4 @@
----
+﻿---
 title: "Штрудель яблочный (адаптированный)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 6
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 42
   sodium_mg: 18
 tags: [low-protein, dessert, baking, apple]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-07
 notes: "Тесто на крахмале, начинка из яблок с корицей. Без яиц, с минимальным количеством масла."
 ---

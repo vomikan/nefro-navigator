@@ -1,4 +1,4 @@
----
+﻿---
 title: "Соус томатный без фосфатов (адаптированный)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 8
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 20
   sodium_mg: 15
 tags: [low-protein, sauce, vegan, no-additives]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-10
 notes: "Без готовой томатной пасты с добавками. Загущение натуральными овощами, кислота — лимон/уксус."
 ---

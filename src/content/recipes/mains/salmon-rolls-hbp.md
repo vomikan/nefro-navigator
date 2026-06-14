@@ -13,6 +13,7 @@ nutrients_per_serving:
   sodium_mg: null
 tags: ["low-protein", "fish", "japanese", "special-occasion", "dinner"]
 author: "Игорь Петров / hpn-diet.ru"
+source_link: "https://t.me/hpngrup"
 date_added: "2026-06-05"
 notes: "⚠️ Соевый соус исключить! Можно заменить на несколько капель кунжутного масла. Для заправки вместо магазинного майонеза используйте [наш адаптированный рецепт](/recipes/sauces/mayonez-domashniy/) — в нём нет скрытых фосфатов и меньше натрия. Вино — крайне редко и только по согласованию с врачом."
 ---

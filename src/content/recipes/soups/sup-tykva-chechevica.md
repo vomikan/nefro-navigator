@@ -1,4 +1,4 @@
----
+﻿---
 title: "Тыквенно-чечевичный суп (адаптированный)"
 stage: [3a, 3b, 4]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 85
   sodium_mg: 30
 tags: [low-protein, vegan, first-course, legumes]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-03
 notes: "Чечевица в минимальном количестве для вкуса. Тыква — основа, низкий калий."
 ---

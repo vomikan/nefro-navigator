@@ -1,4 +1,4 @@
----
+﻿---
 title: "Саго (крахмальные шарики с фруктовым соусом)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 10
   sodium_mg: 2
 tags: [low-protein, dessert, starch-base, traditional]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-04
 notes: "Классический низкобелковый десерт. Крахмальные шарики подаются с фруктовым пюре без сахара."
 ---

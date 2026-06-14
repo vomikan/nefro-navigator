@@ -1,4 +1,4 @@
----
+﻿---
 title: "Зефир домашний (на агар-агаре, без яиц)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 10
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 4
   sodium_mg: 1
 tags: [low-protein, dessert, vegan, no-bake, agar]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-08
 notes: "Лёгкий десерт на агар-агаре. Без яиц, желатина и молочных продуктов. Идеален при строгом ограничении фосфора."
 ---

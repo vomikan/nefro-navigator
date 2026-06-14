@@ -1,4 +1,4 @@
----
+﻿---
 title: "Рыбный салат (адаптированный)"
 stage: [3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 110
   sodium_mg: 90
 tags: [low-protein, quick, seafood]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-03
 notes: "Рыба отварная, овощи без кожуры. Минимум обработки для сохранения вкуса."
 ---

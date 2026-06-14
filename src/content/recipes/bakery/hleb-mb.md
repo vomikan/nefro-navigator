@@ -1,4 +1,4 @@
----
+﻿---
 title: "Хлеб МБ (малобелковый)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 1
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 60
   sodium_mg: 8
 tags: [low-protein, staple, bread-maker]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-01"
 notes: "Белок снижен за счёт замены 30% муки кукурузным крахмалом. Без соли и фосфатных добавок. Магазинный хлеб обычно содержит 7–8 г белка/100 г."
 ---

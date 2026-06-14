@@ -1,4 +1,4 @@
----
+﻿---
 title: "Блины низкобелковые (на крахмале)"
 stage: ["1", "2", "3a", "3b", "4", "5-pd"]
 servings: 4
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 35
   sodium_mg: 15
 tags: [low-protein, breakfast, quick, starch-base]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: "2024-12-04"
 notes: "Яйца заменены на крахмал + воду. Молоко можно разбавить. Идеальны для завтрака с домашним вареньем."
 ---

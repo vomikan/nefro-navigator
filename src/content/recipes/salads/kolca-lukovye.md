@@ -1,4 +1,4 @@
----
+﻿---
 title: "Луковые кольца (адаптированные, запечённые)"
 stage: [1, 2, 3a, 3b, 4, 5-pd]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 40
   sodium_mg: 15
 tags: [low-protein, snack, baked, comfort-food]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-05
 notes: "Кляр на крахмале, запекание вместо жарки. Хрустящая закуска без избытка фосфора."
 ---

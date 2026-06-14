@@ -1,4 +1,4 @@
----
+﻿---
 title: "Тыквенно-чечевичный суп (вариант 2, с рисом)"
 stage: [3a, 3b, 4]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 78
   sodium_mg: 28
 tags: [low-protein, vegan, first-course, rice]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-09
 notes: "Дополнение к базовому рецепту: добавлен рис для сытности. Тыква — основа, низкий калий."
 ---

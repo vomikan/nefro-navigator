@@ -1,4 +1,4 @@
----
+﻿---
 title: "Тыквенный крем-суп (адаптированный)"
 stage: [3a, 3b, 4]
 servings: 2
@@ -12,7 +12,8 @@ nutrients_per_serving:
   phosphorus_mg: 45
   sodium_mg: 15
 tags: [low-protein, low-phosphorus, vegan, quick]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-01
 notes: "Без молочных продуктов и мясных бульонов. Калий контролируется выбором овощей. Для добора калорий добавить 1 ч. л. оливкового масла на порцию."
 ---

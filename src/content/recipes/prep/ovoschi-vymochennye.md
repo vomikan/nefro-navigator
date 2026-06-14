@@ -1,4 +1,4 @@
----
+﻿---
 title: "Овощи вымоченные (техника снижения калия)"
 stage: [3a, 3b, 4, 5-pd]
 servings: 1
@@ -12,7 +12,8 @@ nutrients_per_100g:
   phosphorus_mg: 40*
   sodium_mg: 5
 tags: [technique, low-potassium, prep, foundational]
-author: "Игорь / Сообщество ХБП"
+author: "Игорь Петров / Дневник ХПНщика"
+source_link: "https://t.me/hpngrup"
 date_added: 2024-12-10
 notes: "*Калий снижен на 40–60% за счёт вымачивания и отваривания со сливом воды. Универсальная техника для картофеля, моркови, свёклы."
 ---
