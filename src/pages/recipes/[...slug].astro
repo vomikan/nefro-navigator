@@ -3,77 +3,58 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { marked } from 'marked'; // <--- Импортируем marked
 
 const BASE = '/nefro-navigator';
 
-// 1. Функция getStaticPaths
+// 1. Функция getStaticPaths (без изменений)
 export async function getStaticPaths() {
-  // Вспомогательная функция для рекурсивного поиска (объявлена внутри)
   const getAllFiles = (dirPath, arrayOfFiles = []) => {
     const files = fs.readdirSync(dirPath);
-
     files.forEach(file => {
       const filePath = path.join(dirPath, file);
       if (fs.statSync(filePath).isDirectory()) {
-        // Рекурсия: заходим в папку
         arrayOfFiles = getAllFiles(filePath, arrayOfFiles);
       } else {
-        // Добавляем файл
         arrayOfFiles.push(filePath);
       }
     });
-
     return arrayOfFiles;
   };
 
   const recipesDir = path.join(process.cwd(), 'src/content/recipes');
+  if (!fs.existsSync(recipesDir)) return [];
 
-  if (!fs.existsSync(recipesDir)) {
-    return [];
-  }
-
-  // Получаем список ВСЕХ файлов
   const allFiles = getAllFiles(recipesDir);
-
   return allFiles
     .filter(file => file.endsWith('.md'))
     .map(file => {
-      // Вычисляем slug относительно папки recipes
-      // Пример: C:/.../recipes/mains/burger.md -> mains/burger
       const relativePath = path.relative(recipesDir, file);
-      // Заменяем обратные слэши (Windows) на прямые и убираем расширение
       const slug = relativePath.replace(/\.md$/, '').replace(/\\/g, '/');
-
-      return {
-        params: { slug },
-        props: {} 
-      };
+      return { params: { slug }, props: {} };
     });
 }
 
-//  2. Получаем параметры текущей страницы
+// 2. Получаем параметры
 const { slug } = Astro.params;
-
-// 3. Читаем конкретный файл
-// Важно: slug теперь может быть "mains/burger-hbp", поэтому путь собираем полностью
 const filePath = path.join(process.cwd(), 'src/content/recipes', `${slug}.md`);
 
 let data = {};
-let content = '';
+let htmlContent = ''; // <--- Меняем имя переменной на htmlContent
 
 if (fs.existsSync(filePath)) {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const parsed = matter(fileContent);
   data = parsed.data;
-  content = parsed.content;
+  
+  // 🔑 КОНВЕРТАЦИЯ MARKDOWN В HTML
+  htmlContent = marked.parse(parsed.content); 
 } else {
-  // Если файл не найден, редирект на список рецептов
   return Astro.redirect(`${BASE}/recipes/`);
 }
 
-// SEO данные
 const pageTitle = `${data.title || 'Рецепт'} | НефроНавигатор`;
-const pageDescription = data.notes || `Рецепт: ${data.title}. Автор: ${data.author || 'НефроНавигатор'}.`;
+const pageDescription = data.notes || `Рецепт: ${data.title}.`;
 ---
 
 <!DOCTYPE html>
@@ -90,6 +71,24 @@ const pageDescription = data.notes || `Рецепт: ${data.title}. Автор: 
     a { color: #C44D34; text-decoration: none; }
     .back { display: inline-block; margin-bottom: 1.5rem; font-weight: 500; }
     h1 { color: #C44D34; border-bottom: 2px solid #e8f5e9; padding-bottom: 0.5rem; }
+    
+    /* Стили для контента рецепта */
+    .recipe-content h2, .recipe-content h3, .recipe-content h4 {
+      color: #C44D34;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .recipe-content p { margin-bottom: 1rem; }
+    .recipe-content ul, .recipe-content ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+    .recipe-content li { margin-bottom: 0.3rem; }
+    .recipe-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1rem 0;
+      display: block;
+    }
+    .recipe-content strong { font-weight: 700; }
     
     .meta-info { background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem; }
     .meta-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 0.3rem 0; }
@@ -120,29 +119,20 @@ const pageDescription = data.notes || `Рецепт: ${data.title}. Автор: 
       <div class="meta-row"><span>👨‍🍳 Автор:</span> <strong>{data.author || 'Неизвестно'}</strong></div>
       <div class="meta-row"><span>⏱ Время:</span> <span>{data.prep_time || '-'}</span></div>
       <div class="meta-row"><span>🍽 Порций:</span> <span>{data.servings || '-'}</span></div>
-      <div class="meta-row"><span>🏷 Теги:</span> <span>{data.tags ? data.tags.join(', ') : '-'}</span></div>
       
-      <!-- Нутриенты -->
       {data.nutrients_per_serving && (
         <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed #ccc;">
           <strong>КБЖУ на порцию:</strong><br>
-          {data.nutrients_per_serving.kcal} ккал | 
-          Б: {data.nutrients_per_serving.protein_g}г | 
-          Ж: {data.nutrients_per_serving.fat_g}г | 
-          У: {data.nutrients_per_serving.carbs_g}г<br>
-          <small style="color:#666">
-            K: {data.nutrients_per_serving.potassium_mg}мг | 
-            P: {data.nutrients_per_serving.phosphorus_mg}мг | 
-            Na: {data.nutrients_per_serving.sodium_mg}мг
-          </small>
+          {data.nutrients_per_serving.kcal} ккал | Б: {data.nutrients_per_serving.protein_g}г | Ж: {data.nutrients_per_serving.fat_g}г | У: {data.nutrients_per_serving.carbs_g}г<br>
+          <small style="color:#666">K: {data.nutrients_per_serving.potassium_mg}мг | P: {data.nutrients_per_serving.phosphorus_mg}мг | Na: {data.nutrients_per_serving.sodium_mg}мг</small>
         </div>
       )}
     </div>
 
-    <!-- Основной контент рецепта (Markdown) -->
-    <div set:html={content}></div>
+    <!-- 🔑 ОСНОВНОЙ КОНТЕНТ (теперь это HTML) -->
+    <div class="recipe-content" set:html={htmlContent}></div>
 
-    <!-- 🔑 БЛОК ИСТОЧНИКА (Универсальный) -->
+    <!-- БЛОК ИСТОЧНИКА -->
     {data.source_link && (
       <div class="source-box">
         <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #C44D34;">📚 Первоисточник</p>
@@ -151,10 +141,8 @@ const pageDescription = data.notes || `Рецепт: ${data.title}. Автор: 
           <a href={data.source_link} target="_blank" rel="noopener" style="color: #C44D34; text-decoration: underline; font-weight: 500;">
             {data.source_name || 'авторского канала'}
           </a>.
-          <br>
-          Автор идеи: <strong>{data.author}</strong>. 
-          <br>
-          <small>Используется с уважением к авторству. Рецепты адаптированы для удобного поиска и расчета КБЖУ.</small>
+          <br>Автор идеи: <strong>{data.author}</strong>. 
+          <br><small>Используется с уважением к авторству.</small>
         </p>
       </div>
     )}
