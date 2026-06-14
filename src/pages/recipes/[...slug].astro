@@ -142,17 +142,19 @@ const pageDescription = data.notes || `Рецепт: ${data.title}. Автор: 
     <!-- Основной контент рецепта (Markdown) -->
     <div set:html={content}></div>
 
-    <!-- 🔑 БЛОК ИСТОЧНИКА (Только если есть source_link) -->
+    <!-- 🔑 БЛОК ИСТОЧНИКА (Универсальный) -->
     {data.source_link && (
       <div class="source-box">
-        <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #C44D34;">📚 Источник вдохновения</p>
+        <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #C44D34;">📚 Первоисточник</p>
         <p style="margin: 0;">
-          Этот материал основан на опыте и рекомендациях из канала 
+          Этот материал является адаптацией рецепта из канала 
           <a href={data.source_link} target="_blank" rel="noopener" style="color: #C44D34; text-decoration: underline; font-weight: 500;">
-            «Дневник ХПНщика»
+            {data.source_name || 'авторского канала'}
           </a>.
           <br>
-          Автор: <strong>{data.author}</strong>. Используется с уважением к авторству и по договоренности.
+          Автор идеи: <strong>{data.author}</strong>. 
+          <br>
+          <small>Используется с уважением к авторству. Рецепты адаптированы для удобного поиска и расчета КБЖУ.</small>
         </p>
       </div>
     )}
