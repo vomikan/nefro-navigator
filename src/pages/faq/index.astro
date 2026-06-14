@@ -4,11 +4,10 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-const BASE = '/nefro-navigator'; // 🔑 Константа для динамических ссылок
+const BASE = '/nefro-navigator'; 
 // 🔑 SEO Данные
 const pageTitle = 'Часто задаваемые вопросы | НефроНавигатор';
-const pageDescription = 'Часто задаваемые вопросы';
-
+const pageDescription = 'Ответы на частые вопросы пациентов с ХБП.';
 
 const faqDir = path.join(process.cwd(), 'src/content/faq');
 const allFaqs = [];
@@ -17,20 +16,29 @@ if (fs.existsSync(faqDir)) {
   fs.readdirSync(faqDir).forEach(file => {
     if (file.endsWith('.md')) {
       const { data, content } = matter(fs.readFileSync(path.join(faqDir, file), 'utf-8'));
-      const safeSearch = `${data.question || ''} ${data.category || ''} ${content}`
-        .toLowerCase()
-        .replace(/[^a-zа-яё0-9\s]/gi, ' ')
-        .trim();
-
+      
+      // 🔑 1. ВАЖНО: Добавляем date_updated в объект, иначе сортировка не увидит дату
       allFaqs.push({
         slug: file.replace('.md', ''),
         question: data.question || 'Без вопроса',
         category: data.category || '',
-        _search: safeSearch
+        date_updated: data.date_updated || '', // <--- Сохраняем дату из frontmatter
+        _search: `${data.question || ''} ${data.category || ''} ${content}`
+          .toLowerCase()
+          .replace(/[^a-zа-яё0-9\s]/gi, ' ')
+          .trim()
       });
     }
   });
 }
+
+// 🔑 2. Сортировка по date_updated (новые сверху)
+allFaqs.sort((a, b) => {
+  const timeA = a.date_updated ? new Date(a.date_updated).getTime() : 0;
+  const timeB = b.date_updated ? new Date(b.date_updated).getTime() : 0; // Исправлено: было a.date_updated
+  
+  return timeB - timeA; // От новых к старым
+});
 ---
 
 <html lang="ru">
